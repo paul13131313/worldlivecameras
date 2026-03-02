@@ -5,8 +5,9 @@ import { categoryLabels } from '../data/cameras';
 const INITIAL_PLAY_TIMEOUT = 20000;
 const STATE_CHANGE_TIMEOUT = 10000;
 const OFFLINE_RETRY_INTERVAL = 30 * 60 * 1000;
+const OFFLINE_RETRY_INTERVAL_HIGH = 5 * 60 * 1000;
 
-type SlotStatus = 'loading' | 'live' | 'switching' | 'offline';
+type SlotStatus = 'loading' | 'live' | 'stream' | 'switching' | 'offline';
 
 interface CameraCardProps {
   group: CameraGroup;
@@ -144,10 +145,21 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
               if (destroyed) return;
               const state = event.data;
               if (state === 1 || state === 3) {
-                // PLAYING or BUFFERING — mark as live, clear switch timer
+                // PLAYING or BUFFERING — mark as live/stream, clear switch timer
                 if (state === 1) {
                   isLiveRef.current = true;
-                  updateStatus('live');
+                  // Check if actual live broadcast via player duration
+                  try {
+                    const duration = event.target.getDuration();
+                    // Live streams report 0 or very large duration
+                    if (duration === 0 || duration > 86400) {
+                      updateStatus('live');
+                    } else {
+                      updateStatus('stream');
+                    }
+                  } catch {
+                    updateStatus('live');
+                  }
                 }
                 clearTimers();
                 if (stateTimer) { clearTimeout(stateTimer); stateTimer = null; }
@@ -201,18 +213,19 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
     };
   }, [currentIndex, group.cameras, group.slot, divId, clearTimers, addTimer, switchToNext, updateStatus]);
 
-  // 30-minute retry for OFFLINE slots
+  // Retry for OFFLINE slots (5min for high-availability, 30min for others)
   useEffect(() => {
     if (status !== 'offline') return;
+    const interval = !!group.highAvailability ? OFFLINE_RETRY_INTERVAL_HIGH : OFFLINE_RETRY_INTERVAL;
     const id = setTimeout(() => {
       setCurrentIndex(0);
       updateStatus('loading');
-    }, OFFLINE_RETRY_INTERVAL);
+    }, interval);
     return () => clearTimeout(id);
-  }, [status, updateStatus]);
+  }, [status, updateStatus, group.highAvailability]);
 
   const handleClick = () => {
-    if (status === 'live') {
+    if (status === 'live' || status === 'stream') {
       onSelect({ ...camera, category: group.category });
     }
   };
@@ -222,7 +235,9 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
       className={`group relative cursor-pointer overflow-hidden bg-black border transition-all duration-500 ${
         status === 'offline'
           ? 'border-white/[0.03]'
-          : 'border-white/[0.06] hover:border-white/20'
+          : status === 'stream'
+            ? 'border-blue-400/10 hover:border-blue-400/30'
+            : 'border-white/[0.06] hover:border-white/20'
       }`}
       onClick={handleClick}
     >
@@ -251,6 +266,11 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
           <>
             <span className="live-dot w-1.5 h-1.5 rounded-full bg-red-500 inline-block" />
             <span className="text-white/80 font-medium">LIVE</span>
+          </>
+        ) : status === 'stream' ? (
+          <>
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-400 inline-block" />
+            <span className="text-blue-300/80 font-medium">STREAM</span>
           </>
         ) : status === 'offline' ? (
           <>
@@ -291,7 +311,7 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
                 <span
                   className={`w-1.5 h-1.5 rounded-full shrink-0 ${
                     i === currentIndex
-                      ? status === 'live' ? 'bg-red-500' : 'bg-yellow-500'
+                      ? status === 'live' ? 'bg-red-500' : status === 'stream' ? 'bg-blue-400' : 'bg-yellow-500'
                       : i < currentIndex ? 'bg-gray-700' : 'bg-gray-600'
                   }`}
                 />
