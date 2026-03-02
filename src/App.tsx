@@ -83,10 +83,16 @@ function App() {
         </div>
       </main>
 
-      {/* Fullscreen hint */}
+      {/* Fullscreen toggle button + hint */}
+      <button
+        onClick={toggleFullscreen}
+        className="fixed bottom-3 right-3 z-50 bg-black/50 backdrop-blur-sm border border-white/10 hover:border-white/30 text-white/40 hover:text-white/80 px-2.5 py-1 text-[9px] tracking-widest uppercase cursor-pointer transition-all"
+      >
+        {isFullscreen ? '✕ EXIT' : '⛶ FULL'}
+      </button>
       {isFullscreen && (
         <div
-          className={`fixed bottom-4 right-4 text-[10px] text-white/40 tracking-wider z-50 transition-opacity duration-700 ${
+          className={`fixed bottom-3 right-24 text-[10px] text-white/40 tracking-wider z-50 transition-opacity duration-700 ${
             showHint ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >
