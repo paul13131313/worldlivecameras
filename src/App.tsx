@@ -1,16 +1,16 @@
 import { useState, useMemo } from 'react';
-import { cameras } from './data/cameras';
-import type { Category, Camera } from './data/cameras';
+import { cameraGroups } from './data/cameras';
+import type { Category, ActiveCamera } from './data/cameras';
 import { CameraCard } from './components/CameraCard';
 import { CategoryFilter } from './components/CategoryFilter';
 import { Modal } from './components/Modal';
 
 function App() {
   const [filter, setFilter] = useState<Category | 'all'>('all');
-  const [selected, setSelected] = useState<Camera | null>(null);
+  const [selected, setSelected] = useState<ActiveCamera | null>(null);
 
   const filtered = useMemo(
-    () => filter === 'all' ? cameras : cameras.filter((c) => c.category === filter),
+    () => filter === 'all' ? cameraGroups : cameraGroups.filter((g) => g.category === filter),
     [filter]
   );
 
@@ -29,8 +29,8 @@ function App() {
       {/* Grid — fills remaining viewport */}
       <main className="flex-1 min-h-0 px-2 pb-2">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1.5 h-full auto-rows-fr">
-          {filtered.map((cam) => (
-            <CameraCard key={cam.id} camera={cam} onSelect={setSelected} />
+          {filtered.map((group) => (
+            <CameraCard key={group.slot} group={group} onSelect={setSelected} />
           ))}
         </div>
       </main>

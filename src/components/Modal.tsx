@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import type { Camera } from '../data/cameras';
+import type { ActiveCamera } from '../data/cameras';
 import { categoryLabels } from '../data/cameras';
 
 interface ModalProps {
-  camera: Camera | null;
+  camera: ActiveCamera | null;
   onClose: () => void;
 }
 
@@ -45,6 +45,7 @@ export function Modal({ camera, onClose }: ModalProps) {
             allow="autoplay; encrypted-media"
             allowFullScreen
             className="w-full h-full"
+            style={{ border: 'none' }}
           />
         </div>
 
@@ -54,7 +55,7 @@ export function Modal({ camera, onClose }: ModalProps) {
               {camera.flag} {camera.name}
             </h2>
             <p className="text-[11px] text-white/25 mt-1 tracking-wider uppercase font-light">
-              {camera.country} &mdash; {camera.channel}
+              {camera.country}
             </p>
           </div>
           <span className="text-[10px] px-3 py-1 border border-white/10 text-white/30 tracking-[0.2em] uppercase font-light">

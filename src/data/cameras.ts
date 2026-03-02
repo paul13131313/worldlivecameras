@@ -1,15 +1,22 @@
 export type Category = 'wildlife' | 'aurora' | 'ocean' | 'mountain' | 'city' | 'zoo' | 'scenic';
 
-export interface Camera {
-  id: string;
-  videoId: string;
+export interface CameraCandidate {
   name: string;
+  channelId: string;
+  videoId: string;
   country: string;
   flag: string;
-  category: Category;
   timezone: string;
-  channel: string;
-  channelUrl: string;
+}
+
+export interface CameraGroup {
+  category: Category;
+  slot: number;
+  cameras: CameraCandidate[];
+}
+
+export interface ActiveCamera extends CameraCandidate {
+  category: Category;
 }
 
 export const categoryLabels: Record<Category, string> = {
@@ -22,147 +29,125 @@ export const categoryLabels: Record<Category, string> = {
   scenic: '絶景',
 };
 
-export const categoryColors: Record<Category, string> = {
-  wildlife: 'bg-amber-800/60 text-amber-200',
-  aurora: 'bg-purple-800/60 text-purple-200',
-  ocean: 'bg-cyan-800/60 text-cyan-200',
-  mountain: 'bg-emerald-800/60 text-emerald-200',
-  city: 'bg-blue-800/60 text-blue-200',
-  zoo: 'bg-pink-800/60 text-pink-200',
-  scenic: 'bg-indigo-800/60 text-indigo-200',
-};
-
-export const cameras: Camera[] = [
+export const cameraGroups: CameraGroup[] = [
+  // Slot 1: Wildlife - Africam
   {
-    id: 'tembe',
-    videoId: 'gdrNUUf-cQw',
-    name: 'Tembe Elephant Park',
-    country: 'South Africa',
-    flag: '🇿🇦',
     category: 'wildlife',
-    timezone: 'Africa/Johannesburg',
-    channel: 'Africam',
-    channelUrl: 'https://www.youtube.com/@Africam',
+    slot: 1,
+    cameras: [
+      { name: 'Tembe Elephant Park', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'zqc0Z2oWmo8', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
+      { name: 'Djuma Dam (WildEarth)', channelId: 'UCV6HJBZD_hZcIX9JVJ3dCXQ', videoId: 'MAU57NcV-xE', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
+      { name: 'Explore Nature Cams', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'ObR7SBKrkXc', country: 'VARIOUS', flag: '🌍', timezone: 'Africa/Nairobi' },
+    ],
   },
+  // Slot 2: Wildlife - Namibia
   {
-    id: 'namibia',
-    videoId: 'ydYDqZQpim8',
-    name: 'Gondwana Namib Waterhole',
-    country: 'Namibia',
-    flag: '🇳🇦',
     category: 'wildlife',
-    timezone: 'Africa/Windhoek',
-    channel: 'NamibiaCam',
-    channelUrl: 'https://www.youtube.com/@NamibiaCam',
+    slot: 2,
+    cameras: [
+      { name: 'Namib Waterhole', channelId: 'UC9X6gGKDv2yhMoofoeS7-Gg', videoId: 'ME0dPuBtzug', country: 'NAMIBIA', flag: '🇳🇦', timezone: 'Africa/Windhoek' },
+      { name: 'Great Plains', channelId: 'UCsNVi5wOyXcDKNPaT5I0-aQ', videoId: '1HxOxiMZUNI', country: 'BOTSWANA', flag: '🇧🇼', timezone: 'Africa/Gaborone' },
+      { name: 'Africam', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'zqc0Z2oWmo8', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
+    ],
   },
+  // Slot 3: Wildlife - WildEarth
   {
-    id: 'kenya',
-    videoId: 'KyQAB-TKOVA',
-    name: 'Mpala Research Centre',
-    country: 'Kenya',
-    flag: '🇰🇪',
     category: 'wildlife',
-    timezone: 'Africa/Nairobi',
-    channel: 'Explore.org',
-    channelUrl: 'https://www.youtube.com/@ExploreLiveNatureCams',
+    slot: 3,
+    cameras: [
+      { name: 'safariLIVE', channelId: 'UCV6HJBZD_hZcIX9JVJ3dCXQ', videoId: 'MAU57NcV-xE', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
+      { name: 'Explore Nature Cams', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'ObR7SBKrkXc', country: 'VARIOUS', flag: '🌍', timezone: 'Africa/Nairobi' },
+      { name: 'Namib Waterhole', channelId: 'UC9X6gGKDv2yhMoofoeS7-Gg', videoId: 'ME0dPuBtzug', country: 'NAMIBIA', flag: '🇳🇦', timezone: 'Africa/Windhoek' },
+    ],
   },
+  // Slot 4: Aurora - Finland
   {
-    id: 'finland-aurora',
-    videoId: 'iOmco6eIa-0',
-    name: 'Lapland Sky Camera',
-    country: 'Finland',
-    flag: '🇫🇮',
     category: 'aurora',
-    timezone: 'Europe/Helsinki',
-    channel: 'Hotel Lapin Satu',
-    channelUrl: 'https://www.youtube.com/@HotelLapinSatu',
+    slot: 4,
+    cameras: [
+      { name: 'Aurora Borealis LIVE', channelId: 'UCrEfDv09Q2suoiSDt1hZIlg', videoId: 'l9_VHVuzn4w', country: 'FINLAND', flag: '🇫🇮', timezone: 'Europe/Helsinki' },
+      { name: 'Lapland Sky Camera', channelId: 'UC2z6E_R2mADXr53hBL_lYmA', videoId: 'iOmco6eIa-0', country: 'FINLAND', flag: '🇫🇮', timezone: 'Europe/Helsinki' },
+      { name: 'Fairbanks Aurora', channelId: 'UCUtGnX65osNPQ98Y3-SSgpg', videoId: 'ExKSeDuMqbs', country: 'USA', flag: '🇺🇸', timezone: 'America/Anchorage' },
+    ],
   },
+  // Slot 5: Aurora - Alaska
   {
-    id: 'alaska-aurora',
-    videoId: 'a0i1Kg6fROg',
-    name: 'Fairbanks Aurora Cam',
-    country: 'USA',
-    flag: '🇺🇸',
     category: 'aurora',
-    timezone: 'America/Anchorage',
-    channel: 'Explore.org',
-    channelUrl: 'https://www.youtube.com/@ExploreZenDen',
+    slot: 5,
+    cameras: [
+      { name: 'Fairbanks Aurora', channelId: 'UCUtGnX65osNPQ98Y3-SSgpg', videoId: 'ExKSeDuMqbs', country: 'USA', flag: '🇺🇸', timezone: 'America/Anchorage' },
+      { name: 'Northern Lights Multi', channelId: 'UCNj6DsIsOi-DHORB-0MGlGQ', videoId: 'YfF0ngef-WA', country: 'CANADA', flag: '🇨🇦', timezone: 'America/Edmonton' },
+      { name: 'Aurora Borealis LIVE', channelId: 'UCrEfDv09Q2suoiSDt1hZIlg', videoId: 'l9_VHVuzn4w', country: 'FINLAND', flag: '🇫🇮', timezone: 'Europe/Helsinki' },
+    ],
   },
+  // Slot 6: Ocean
   {
-    id: 'pipeline',
-    videoId: 'VI8Wj5EwoRM',
-    name: 'Banzai Pipeline',
-    country: 'Hawaii, USA',
-    flag: '🇺🇸',
     category: 'ocean',
-    timezone: 'Pacific/Honolulu',
-    channel: 'Explore.org',
-    channelUrl: 'https://www.youtube.com/@ExploreOceans',
+    slot: 6,
+    cameras: [
+      { name: 'Banzai Pipeline', channelId: 'UCSyg9cb3Iq-NtlbxqNB9wGw', videoId: 'gbaLDcOhqI8', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
+      { name: 'Surfline', channelId: 'UC4i3-yfVazfuqwoz71T79Sw', videoId: 'hm9iAviOZ20', country: 'USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
+      { name: 'North Shore 4K', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: 'JVLVCSfQLYQ', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
+    ],
   },
+  // Slot 7: Mountain
   {
-    id: 'fuji',
-    videoId: 'Sv9hcJ3k5h4',
-    name: 'Mount Fuji',
-    country: 'Japan',
-    flag: '🇯🇵',
     category: 'mountain',
-    timezone: 'Asia/Tokyo',
-    channel: 'Fujiyama NAVI',
-    channelUrl: 'https://www.youtube.com/@fujiyamanavi',
+    slot: 7,
+    cameras: [
+      { name: 'Mount Fuji', channelId: 'UCk2oG--VyYST4SYyQkeadjA', videoId: 'CQFZblF3seM', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Tokyo Bay & Fuji', channelId: 'UC8Y5mMpRMNLlLWXM3BUKy6Q', videoId: 'obZSDjuJ36U', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Swiss Alps', channelId: 'UC9xLSF0SZDbVa70iTpghQBw', videoId: 'HVt5n0CDRF8', country: 'SWITZERLAND', flag: '🇨🇭', timezone: 'Europe/Zurich' },
+    ],
   },
+  // Slot 8: City - Japan
   {
-    id: 'shibuya',
-    videoId: 'dfVK7ld38Ys',
-    name: 'Shibuya Crossing',
-    country: 'Japan',
-    flag: '🇯🇵',
     category: 'city',
-    timezone: 'Asia/Tokyo',
-    channel: 'ANN newsCH',
-    channelUrl: 'https://www.youtube.com/@ANNnewsCH',
+    slot: 8,
+    cameras: [
+      { name: 'Shibuya Crossing', channelId: 'UCoQBJMzcwmXrRSHBFAlTsIw', videoId: 'ck_Yl0GgpK4', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Times Square', channelId: 'UC6qrG3W8SMK0jior2olka3g', videoId: 'kLoFxVhRWtQ', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
+      { name: 'World Cities', channelId: 'UCRuyAVeVd7oUwh0LWmxxBBQ', videoId: 'Fu8vYoIkaeM', country: 'VARIOUS', flag: '🌍', timezone: 'Europe/Prague' },
+    ],
   },
+  // Slot 9: City - Europe
   {
-    id: 'timessquare',
-    videoId: 'rnXIjl_Rzy4',
-    name: 'Times Square',
-    country: 'USA',
-    flag: '🇺🇸',
     category: 'city',
-    timezone: 'America/New_York',
-    channel: 'EarthCam',
-    channelUrl: 'https://www.youtube.com/@EarthCam',
+    slot: 9,
+    cameras: [
+      { name: 'Venice Grand Canal', channelId: 'UCMpn1qLudF-zb4M4bqxLIbw', videoId: '7fhy-Eu8AFs', country: 'ITALY', flag: '🇮🇹', timezone: 'Europe/Rome' },
+      { name: 'Prague Old Town', channelId: 'UCs8QCDKYww0gFmZkJ3JHiBQ', videoId: 'IFnbDmgP69Q', country: 'CZECH REPUBLIC', flag: '🇨🇿', timezone: 'Europe/Prague' },
+      { name: 'Abbey Road & More', channelId: 'UC2WMV4vCYurHdHPd9pCqYSg', videoId: 'wyMx0d7q0mo', country: 'UK', flag: '🇬🇧', timezone: 'Europe/London' },
+    ],
   },
+  // Slot 10: Animals
   {
-    id: 'panda',
-    videoId: 'gnEuhfyZPPQ',
-    name: 'Chengdu Panda Base',
-    country: 'China',
-    flag: '🇨🇳',
     category: 'zoo',
-    timezone: 'Asia/Shanghai',
-    channel: 'iPanda',
-    channelUrl: 'https://www.youtube.com/@iPandaCam',
+    slot: 10,
+    cameras: [
+      { name: 'Chengdu Panda Base', channelId: 'UCtEgLf0_j1vJLz0aNEdO2SQ', videoId: '9LvjI3NelAU', country: 'CHINA', flag: '🇨🇳', timezone: 'Asia/Shanghai' },
+      { name: 'Monterey Bay Aquarium', channelId: 'UCnM5iMGiKsZg-iOlIO2ZkdQ', videoId: 'nNTVZKz219U', country: 'USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
+      { name: 'Explore Nature Cams', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'ObR7SBKrkXc', country: 'VARIOUS', flag: '🌍', timezone: 'Africa/Nairobi' },
+    ],
   },
+  // Slot 11: Scenic - Space
   {
-    id: 'iss',
-    videoId: 'fO9e9jnhYK8',
-    name: 'ISS Earth View',
-    country: 'Space',
-    flag: '🌍',
     category: 'scenic',
-    timezone: 'UTC',
-    channel: 'Sen',
-    channelUrl: 'https://www.youtube.com/@SenSpace',
+    slot: 11,
+    cameras: [
+      { name: 'ISS Earth View', channelId: 'UCLA_DiR1FfKNvjuUpBHmylQ', videoId: 'FV4Q9DryTG8', country: 'SPACE', flag: '🌍', timezone: 'UTC' },
+      { name: 'Niagara Falls', channelId: 'UC15QFO-cdISk-4Sn5CPd78g', videoId: 'cf4YkyGk6Tk', country: 'CANADA', flag: '🇨🇦', timezone: 'America/New_York' },
+      { name: 'Jackson Hole', channelId: 'UCEpDjqeFIGTqHwk-uULx72Q', videoId: 'XNSFRR5kj-Q', country: 'USA', flag: '🇺🇸', timezone: 'America/Denver' },
+    ],
   },
+  // Slot 12: Scenic - World
   {
-    id: 'venice',
-    videoId: 'ph1vpnYIxJk',
-    name: 'Venice Canals',
-    country: 'Italy',
-    flag: '🇮🇹',
     category: 'scenic',
-    timezone: 'Europe/Rome',
-    channel: 'I Love You Venice',
-    channelUrl: 'https://www.youtube.com/@ILoveYouVenice',
+    slot: 12,
+    cameras: [
+      { name: 'Santorini Sunset', channelId: 'UC2WMV4vCYurHdHPd9pCqYSg', videoId: 'wyMx0d7q0mo', country: 'GREECE', flag: '🇬🇷', timezone: 'Europe/Athens' },
+      { name: 'Niagara Falls', channelId: 'UC15QFO-cdISk-4Sn5CPd78g', videoId: 'cf4YkyGk6Tk', country: 'CANADA', flag: '🇨🇦', timezone: 'America/New_York' },
+      { name: 'Jackson Hole', channelId: 'UCEpDjqeFIGTqHwk-uULx72Q', videoId: 'XNSFRR5kj-Q', country: 'USA', flag: '🇺🇸', timezone: 'America/Denver' },
+    ],
   },
 ];
