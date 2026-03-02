@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Camera } from '../data/cameras';
-import { categoryLabels, categoryColors } from '../data/cameras';
+import { categoryLabels } from '../data/cameras';
 
 interface CameraCardProps {
   camera: Camera;
@@ -38,37 +38,39 @@ export function CameraCard({ camera, onSelect }: CameraCardProps) {
 
   return (
     <div
-      className="group cursor-pointer rounded-lg overflow-hidden bg-[#141414] border border-[#2a2a2a] hover:border-[#444] transition-all duration-300 hover:scale-[1.02]"
+      className="group relative cursor-pointer overflow-hidden bg-black border border-white/[0.06] hover:border-white/20 transition-all duration-500"
       onClick={() => onSelect(camera)}
     >
-      <div className="relative aspect-video bg-black">
-        <iframe
-          src={`https://www.youtube.com/embed/${camera.videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&loop=1`}
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-          className="absolute inset-0 w-full h-full pointer-events-none"
-          loading="lazy"
-        />
+      {/* iframe fills the entire card */}
+      <iframe
+        src={`https://www.youtube.com/embed/${camera.videoId}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&loop=1`}
+        allow="autoplay; encrypted-media"
+        allowFullScreen
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        loading="lazy"
+      />
 
-        <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm px-2 py-1 rounded text-xs font-mono">
-          <span className="live-dot w-2 h-2 rounded-full bg-red-500 inline-block" />
-          <span className="text-red-400 font-bold tracking-wider">LIVE</span>
-        </div>
-
-        <div className="absolute top-2 right-2 bg-black/70 backdrop-blur-sm px-2 py-1 rounded text-xs font-mono text-neutral-300">
-          {localTime}
-        </div>
+      {/* LIVE badge */}
+      <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/60 backdrop-blur-sm px-2 py-0.5 text-[9px] tracking-widest z-10">
+        <span className="live-dot w-1.5 h-1.5 rounded-full bg-white inline-block" />
+        <span className="text-white/80 font-medium">LIVE</span>
       </div>
 
-      <div className="p-3">
-        <div className="flex items-start justify-between gap-2">
+      {/* Time */}
+      <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-sm px-2 py-0.5 text-[9px] font-light text-white/50 tracking-wider z-10">
+        {localTime}
+      </div>
+
+      {/* Bottom overlay — location info */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-3 pb-2 pt-6 z-10">
+        <div className="flex items-end justify-between gap-2">
           <div className="min-w-0">
-            <h3 className="text-sm font-semibold text-white truncate">
+            <h3 className="font-display text-xs lg:text-sm font-normal text-white/90 truncate italic">
               {camera.flag} {camera.name}
             </h3>
-            <p className="text-xs text-neutral-500 mt-0.5">{camera.country}</p>
+            <p className="text-[8px] lg:text-[9px] text-white/30 mt-0.5 tracking-wider uppercase font-light">{camera.country}</p>
           </div>
-          <span className={`shrink-0 text-[10px] px-2 py-0.5 rounded-full font-medium ${categoryColors[camera.category]}`}>
+          <span className="shrink-0 text-[7px] lg:text-[8px] px-1.5 py-0.5 border border-white/10 text-white/30 tracking-widest uppercase font-light">
             {categoryLabels[camera.category]}
           </span>
         </div>

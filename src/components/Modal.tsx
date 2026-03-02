@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import type { Camera } from '../data/cameras';
-import { categoryLabels, categoryColors } from '../data/cameras';
+import { categoryLabels } from '../data/cameras';
 
 interface ModalProps {
   camera: Camera | null;
@@ -25,7 +25,7 @@ export function Modal({ camera, onClose }: ModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md"
       onClick={onClose}
     >
       <div
@@ -34,12 +34,12 @@ export function Modal({ camera, onClose }: ModalProps) {
       >
         <button
           onClick={onClose}
-          className="absolute -top-10 right-0 text-neutral-400 hover:text-white text-2xl font-mono cursor-pointer"
+          className="absolute -top-12 right-0 text-white/20 hover:text-white/60 text-sm tracking-[0.3em] uppercase cursor-pointer transition-colors"
         >
-          ✕
+          Close
         </button>
 
-        <div className="aspect-video bg-black rounded-lg overflow-hidden">
+        <div className="aspect-video bg-black overflow-hidden border border-white/[0.06]">
           <iframe
             src={`https://www.youtube.com/embed/${camera.videoId}?autoplay=1&mute=0&controls=1&modestbranding=1&rel=0`}
             allow="autoplay; encrypted-media"
@@ -48,16 +48,16 @@ export function Modal({ camera, onClose }: ModalProps) {
           />
         </div>
 
-        <div className="mt-3 flex items-center justify-between">
+        <div className="mt-4 flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-semibold text-white">
+            <h2 className="font-display text-xl font-normal text-white/90 italic">
               {camera.flag} {camera.name}
             </h2>
-            <p className="text-sm text-neutral-400">
-              {camera.country} · {camera.channel}
+            <p className="text-[11px] text-white/25 mt-1 tracking-wider uppercase font-light">
+              {camera.country} &mdash; {camera.channel}
             </p>
           </div>
-          <span className={`text-xs px-3 py-1 rounded-full font-medium ${categoryColors[camera.category]}`}>
+          <span className="text-[10px] px-3 py-1 border border-white/10 text-white/30 tracking-[0.2em] uppercase font-light">
             {categoryLabels[camera.category]}
           </span>
         </div>

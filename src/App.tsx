@@ -15,48 +15,25 @@ function App() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
-      {/* Header */}
-      <header className="pt-10 pb-6 text-center">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-[0.3em] text-white font-mono">
-          WORLD LIVE CAMERAS
+    <div className="h-screen bg-black flex flex-col overflow-hidden">
+      {/* Header + Filter */}
+      <header className="shrink-0 pt-6 pb-4 text-center">
+        <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-normal tracking-wide text-white italic">
+          World Live Cameras
         </h1>
-        <p className="mt-2 text-sm text-neutral-500 tracking-widest uppercase">
-          See the world. Right now.
-        </p>
+        <div className="mt-3 px-4">
+          <CategoryFilter selected={filter} onChange={setFilter} />
+        </div>
       </header>
 
-      {/* Filter */}
-      <div className="px-4 pb-8">
-        <CategoryFilter selected={filter} onChange={setFilter} />
-      </div>
-
-      {/* Grid */}
-      <main className="max-w-7xl mx-auto px-4 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      {/* Grid — fills remaining viewport */}
+      <main className="flex-1 min-h-0 px-2 pb-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1.5 h-full auto-rows-fr">
           {filtered.map((cam) => (
             <CameraCard key={cam.id} camera={cam} onSelect={setSelected} />
           ))}
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="border-t border-[#1e1e1e] py-6 text-center text-xs text-neutral-600">
-        <p>Powered by YouTube Live</p>
-        <div className="mt-2 flex flex-wrap justify-center gap-3">
-          {cameras.map((cam) => (
-            <a
-              key={cam.id}
-              href={cam.channelUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-neutral-500 hover:text-neutral-300 transition-colors"
-            >
-              {cam.channel}
-            </a>
-          ))}
-        </div>
-      </footer>
 
       {/* Modal */}
       <Modal camera={selected} onClose={() => setSelected(null)} />
