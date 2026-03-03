@@ -375,16 +375,20 @@ export function CameraCard({ group, onSelect, initialIndex, isAudioOn, onAudioTo
               {camera.country}
             </p>
           </div>
-          {/* Audio toggle icon */}
-          {(status === 'live' || status === 'stream') && (
-            <button
-              onClick={handleAudioClick}
-              className="text-[14px] text-white/30 hover:text-white/80 transition-colors cursor-pointer shrink-0 px-1 pb-0.5"
-              title={isAudioOn ? 'Mute' : 'Unmute'}
-            >
-              {isAudioOn ? '🔊' : '🔇'}
-            </button>
-          )}
+          {/* Audio toggle icon (always visible) */}
+          <button
+            onClick={handleAudioClick}
+            className={`text-[14px] transition-colors cursor-pointer shrink-0 px-1 pb-0.5 ${
+              status === 'offline' || status === 'loading' || status === 'switching'
+                ? 'text-white/10 cursor-default'
+                : isAudioOn
+                  ? 'text-white/90'
+                  : 'text-white/30 hover:text-white/80'
+            }`}
+            title={isAudioOn ? 'Mute' : 'Unmute'}
+          >
+            {isAudioOn ? '🔊' : '🔇'}
+          </button>
         </div>
       </div>
     </div>
