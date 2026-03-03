@@ -12,6 +12,10 @@ type SlotStatus = 'loading' | 'live' | 'stream' | 'switching' | 'offline';
 interface CameraCardProps {
   group: CameraGroup;
   onSelect: (camera: ActiveCamera) => void;
+  initialIndex?: number;
+  isAudioOn?: boolean;
+  onAudioToggle?: (slot: number) => void;
+  onIndexChange?: (slot: number, index: number) => void;
 }
 
 function useLocalTime(timezone: string) {
@@ -54,10 +58,10 @@ function waitForYT(): Promise<void> {
   });
 }
 
-export function CameraCard({ group, onSelect }: CameraCardProps) {
+export function CameraCard({ group, onSelect, initialIndex, isAudioOn, onAudioToggle, onIndexChange }: CameraCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(initialIndex ?? 0);
   const [status, setStatus] = useState<SlotStatus>('loading');
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -90,12 +94,13 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
       const next = prev + 1;
       if (next < group.cameras.length) {
         updateStatus('switching');
+        onIndexChange?.(group.slot, next);
         return next;
       }
       updateStatus('offline');
       return prev;
     });
-  }, [group.cameras.length, updateStatus]);
+  }, [group.cameras.length, group.slot, updateStatus, onIndexChange]);
 
   // Main effect: create YT.Player
   useEffect(() => {
@@ -213,6 +218,20 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
     };
   }, [currentIndex, group.cameras, group.slot, divId, clearTimers, addTimer, switchToNext, updateStatus]);
 
+  // Audio control: mute/unmute based on isAudioOn prop
+  useEffect(() => {
+    const player = playerRef.current;
+    if (!player) return;
+    try {
+      if (isAudioOn) {
+        player.unMute();
+        player.setVolume(100);
+      } else {
+        player.mute();
+      }
+    } catch { /* player not ready */ }
+  }, [isAudioOn]);
+
   // Retry for OFFLINE slots (5min for high-availability, 30min for others)
   useEffect(() => {
     if (status !== 'offline') return;
@@ -226,6 +245,19 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
 
   const handleClick = () => {
     if (status === 'live' || status === 'stream') {
+      // Single click toggles audio
+      if (onAudioToggle) {
+        onAudioToggle(group.slot);
+      } else {
+        // Fallback: open modal if no audio toggle handler
+        onSelect({ ...camera, category: group.category });
+      }
+    }
+  };
+
+  const handleExpand = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (status === 'live' || status === 'stream') {
       onSelect({ ...camera, category: group.category });
     }
   };
@@ -233,11 +265,13 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
   return (
     <div
       className={`group relative cursor-pointer overflow-hidden bg-black border transition-all duration-500 ${
-        status === 'offline'
-          ? 'border-white/[0.03]'
-          : status === 'stream'
-            ? 'border-blue-400/10 hover:border-blue-400/30'
-            : 'border-white/[0.06] hover:border-white/20'
+        isAudioOn
+          ? 'audio-glow'
+          : status === 'offline'
+            ? 'border-white/[0.03]'
+            : status === 'stream'
+              ? 'border-blue-400/10 hover:border-blue-400/30'
+              : 'border-white/[0.06] hover:border-white/20'
       }`}
       onClick={handleClick}
     >
@@ -286,6 +320,13 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
           </>
         )}
       </div>
+
+      {/* Audio indicator */}
+      {isAudioOn && (status === 'live' || status === 'stream') && (
+        <div className="absolute top-2 left-20 z-30 text-[12px]">
+          🔊
+        </div>
+      )}
 
       {/* Signal indicator with tooltip */}
       <div
@@ -347,9 +388,21 @@ export function CameraCard({ group, onSelect }: CameraCardProps) {
               {camera.country}
             </p>
           </div>
-          <span className="shrink-0 text-[7px] lg:text-[8px] px-1.5 py-0.5 border border-white/10 text-white/30 tracking-widest uppercase font-light">
-            {categoryLabels[group.category]}
-          </span>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className="text-[7px] lg:text-[8px] px-1.5 py-0.5 border border-white/10 text-white/30 tracking-widest uppercase font-light">
+              {categoryLabels[group.category]}
+            </span>
+            {/* Expand button */}
+            {(status === 'live' || status === 'stream') && (
+              <button
+                onClick={handleExpand}
+                className="text-[10px] text-white/30 hover:text-white/70 transition-colors cursor-pointer px-1"
+                title="Expand"
+              >
+                ⛶
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

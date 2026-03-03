@@ -1,20 +1,66 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
-import { cameraGroups } from './data/cameras';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import type { Category, ActiveCamera } from './data/cameras';
+import { channels, getChannel } from './data/channels';
+import type { ChannelId } from './data/channels';
 import { CameraCard } from './components/CameraCard';
 import { CategoryFilter } from './components/CategoryFilter';
+import { ChannelBar } from './components/ChannelBar';
 import { Modal } from './components/Modal';
 
+const channelIds: ChannelId[] = channels.map((ch) => ch.id);
+
 function App() {
+  const [activeChannel, setActiveChannel] = useState<ChannelId>('earth');
   const [filter, setFilter] = useState<Category | 'all'>('all');
   const [selected, setSelected] = useState<ActiveCamera | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showHint, setShowHint] = useState(false);
+  const [audioSlot, setAudioSlot] = useState<number | null>(null);
+  const [fading, setFading] = useState(false);
+  const [showChannelOverlay, setShowChannelOverlay] = useState(false);
 
-  const filtered = useMemo(
-    () => filter === 'all' ? cameraGroups : cameraGroups.filter((g) => g.category === filter),
-    [filter]
-  );
+  // Cache: channelId -> Map(slot -> currentIndex)
+  const cacheRef = useRef<Map<ChannelId, Map<number, number>>>(new Map());
+
+  const channel = getChannel(activeChannel);
+
+  const filtered = useMemo(() => {
+    if (!channel.hasCategories || filter === 'all') return channel.groups;
+    return channel.groups.filter((g) => g.category === filter);
+  }, [channel, filter]);
+
+  // Get cached index for a slot
+  const getCachedIndex = useCallback((slot: number): number => {
+    const channelCache = cacheRef.current.get(activeChannel);
+    return channelCache?.get(slot) ?? 0;
+  }, [activeChannel]);
+
+  // Update cache when a card switches to next candidate
+  const handleIndexChange = useCallback((slot: number, index: number) => {
+    if (!cacheRef.current.has(activeChannel)) {
+      cacheRef.current.set(activeChannel, new Map());
+    }
+    cacheRef.current.get(activeChannel)!.set(slot, index);
+  }, [activeChannel]);
+
+  // Channel switching with fade transition
+  const switchChannel = useCallback((newChannel: ChannelId) => {
+    if (newChannel === activeChannel) return;
+    setAudioSlot(null); // Mute on channel switch
+    setFading(true);
+    setTimeout(() => {
+      setActiveChannel(newChannel);
+      setFilter('all'); // Reset category filter on channel switch
+      setFading(false);
+      // Show channel overlay
+      setShowChannelOverlay(true);
+    }, 300);
+  }, [activeChannel]);
+
+  // Audio toggle: click same slot to unmute/mute, click different slot to switch
+  const handleAudioToggle = useCallback((slot: number) => {
+    setAudioSlot((prev) => (prev === slot ? null : slot));
+  }, []);
 
   const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -24,14 +70,12 @@ function App() {
     }
   }, []);
 
-  // Listen for fullscreenchange (handles both F key and ESC)
+  // Listen for fullscreenchange
   useEffect(() => {
     const handleChange = () => {
       const fs = !!document.fullscreenElement;
       setIsFullscreen(fs);
-      if (fs) {
-        setShowHint(true);
-      }
+      if (fs) setShowHint(true);
     };
     document.addEventListener('fullscreenchange', handleChange);
     return () => document.removeEventListener('fullscreenchange', handleChange);
@@ -44,41 +88,116 @@ function App() {
     return () => clearTimeout(id);
   }, [showHint]);
 
-  // F key handler
+  // Fade out channel overlay after 3 seconds
+  useEffect(() => {
+    if (!showChannelOverlay) return;
+    const id = setTimeout(() => setShowChannelOverlay(false), 3000);
+    return () => clearTimeout(id);
+  }, [showChannelOverlay]);
+
+  // Keyboard handler: F (fullscreen), ← → (channel), 1/2/3 (direct), M (mute)
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key !== 'f' && e.key !== 'F') return;
-      // Ignore when modal is open
-      if (selected) return;
-      // Ignore when typing in input/textarea
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA') return;
-      e.preventDefault();
-      toggleFullscreen();
+
+      // F key — fullscreen toggle (skip when modal open)
+      if ((e.key === 'f' || e.key === 'F') && !selected) {
+        e.preventDefault();
+        toggleFullscreen();
+        return;
+      }
+
+      // M key — mute all
+      if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault();
+        setAudioSlot(null);
+        return;
+      }
+
+      // ← → arrow keys — channel navigation
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        const currentIdx = channelIds.indexOf(activeChannel);
+        let nextIdx: number;
+        if (e.key === 'ArrowLeft') {
+          nextIdx = currentIdx > 0 ? currentIdx - 1 : channelIds.length - 1;
+        } else {
+          nextIdx = currentIdx < channelIds.length - 1 ? currentIdx + 1 : 0;
+        }
+        switchChannel(channelIds[nextIdx]);
+        return;
+      }
+
+      // Number keys 1-3 — direct channel selection
+      const num = parseInt(e.key, 10);
+      if (num >= 1 && num <= channelIds.length) {
+        e.preventDefault();
+        switchChannel(channelIds[num - 1]);
+        return;
+      }
     };
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
-  }, [selected, toggleFullscreen]);
+  }, [selected, toggleFullscreen, activeChannel, switchChannel]);
 
   return (
     <div className="h-screen bg-black flex flex-col overflow-hidden">
-      {/* Header + Filter (hidden in fullscreen) */}
+      {/* Header + ChannelBar + Filter (hidden in fullscreen) */}
       {!isFullscreen && (
         <header className="shrink-0 pt-6 pb-4 text-center">
           <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-normal tracking-wide text-white italic">
             World Live Cameras
           </h1>
           <div className="mt-3 px-4">
-            <CategoryFilter selected={filter} onChange={setFilter} />
+            <ChannelBar active={activeChannel} onChange={switchChannel} />
           </div>
+          {channel.hasCategories && (
+            <div className="mt-2 px-4">
+              <CategoryFilter selected={filter} onChange={setFilter} />
+            </div>
+          )}
         </header>
       )}
 
+      {/* Floating ChannelBar in fullscreen */}
+      {isFullscreen && (
+        <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 opacity-0 hover:opacity-100 transition-opacity duration-500">
+          <ChannelBar active={activeChannel} onChange={switchChannel} />
+        </div>
+      )}
+
+      {/* Channel name overlay (shows on switch) */}
+      <div
+        className={`fixed inset-0 flex items-center justify-center z-40 pointer-events-none transition-opacity duration-700 ${
+          showChannelOverlay ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <div className="text-center">
+          <span className="text-4xl md:text-6xl">{channel.emoji}</span>
+          <h2 className="font-display text-xl md:text-3xl text-white/60 tracking-[0.3em] uppercase mt-2 italic">
+            {channel.label}
+          </h2>
+        </div>
+      </div>
+
       {/* Grid — fills remaining viewport */}
       <main className={`flex-1 min-h-0 ${isFullscreen ? 'p-0' : 'px-2 pb-2'}`}>
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 h-full auto-rows-fr ${isFullscreen ? 'gap-1' : 'gap-1.5'}`}>
+        <div
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 h-full auto-rows-fr ${isFullscreen ? 'gap-1' : 'gap-1.5'} transition-opacity duration-300 ${
+            fading ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
           {filtered.map((group) => (
-            <CameraCard key={group.slot} group={group} onSelect={setSelected} />
+            <CameraCard
+              key={`${activeChannel}-${group.slot}`}
+              group={group}
+              onSelect={setSelected}
+              initialIndex={getCachedIndex(group.slot)}
+              isAudioOn={audioSlot === group.slot}
+              onAudioToggle={handleAudioToggle}
+              onIndexChange={handleIndexChange}
+            />
           ))}
         </div>
       </main>

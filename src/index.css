@@ -105,3 +105,15 @@ iframe[id^="yt-player-"] {
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
+
+/* Audio ON glow effect */
+.audio-glow {
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.15), inset 0 0 12px rgba(34, 211, 238, 0.05);
+  transition: all 0.5s ease;
+}
+
+.audio-glow:hover {
+  border-color: rgba(34, 211, 238, 0.6);
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.25), inset 0 0 20px rgba(34, 211, 238, 0.08);
+}
