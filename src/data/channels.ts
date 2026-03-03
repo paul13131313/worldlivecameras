@@ -101,7 +101,7 @@ const newsGroups: CameraGroup[] = [
   },
 ];
 
-// MUSIC: 12スロット（各スロットに1つのプライマリ + フォールバック）
+// MUSIC: 12スロット = 12の異なる音楽チャンネル（重複なし）
 const musicGroups: CameraGroup[] = [
   {
     category: 'music',
@@ -109,7 +109,6 @@ const musicGroups: CameraGroup[] = [
     highAvailability: true,
     cameras: [
       { name: 'Lofi Girl', channelId: 'UCSJ4gkVC6NrvII8umztf0Ow', videoId: 'jfKfPfyJRdk', country: 'LOFI HIP HOP', flag: '🎧', timezone: 'Europe/Paris' },
-      { name: 'Chillhop Music', channelId: 'UCOxqgCwgOqC2lMqC5PYz_Dg', videoId: 'Mq-3Sjg41n4', country: 'CHILLHOP', flag: '🎵', timezone: 'Europe/Amsterdam' },
     ],
   },
   {
@@ -118,7 +117,6 @@ const musicGroups: CameraGroup[] = [
     highAvailability: true,
     cameras: [
       { name: 'Chillhop Music', channelId: 'UCOxqgCwgOqC2lMqC5PYz_Dg', videoId: 'Mq-3Sjg41n4', country: 'CHILLHOP', flag: '🎵', timezone: 'Europe/Amsterdam' },
-      { name: 'Lofi Girl', channelId: 'UCSJ4gkVC6NrvII8umztf0Ow', videoId: 'jfKfPfyJRdk', country: 'LOFI HIP HOP', flag: '🎧', timezone: 'Europe/Paris' },
     ],
   },
   {
@@ -126,7 +124,6 @@ const musicGroups: CameraGroup[] = [
     slot: 3,
     cameras: [
       { name: 'Cafe Music BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'vgw70unQ2vo', country: 'JAZZ', flag: '☕', timezone: 'Asia/Tokyo' },
-      { name: 'Cozy Coffee Shop', channelId: 'UCIWAwKP3_KcWned5aLqZHtw', videoId: 'Gjlg6GGj5U4', country: 'COFFEE JAZZ', flag: '☕', timezone: 'America/New_York' },
     ],
   },
   {
@@ -134,7 +131,6 @@ const musicGroups: CameraGroup[] = [
     slot: 4,
     cameras: [
       { name: 'Yellow Brick Cinema', channelId: 'UCwobzUc3z-0PrFpoRxNszXQ', videoId: 'AK-gGnvqOMc', country: 'AMBIENT', flag: '🌿', timezone: 'America/New_York' },
-      { name: 'OCB Relax Music', channelId: 'UCb1ANUIW7arUUDI-Mwz65rw', videoId: '4khIPP--FDU', country: 'RELAX', flag: '🧘', timezone: 'Europe/Paris' },
     ],
   },
   {
@@ -142,7 +138,6 @@ const musicGroups: CameraGroup[] = [
     slot: 5,
     cameras: [
       { name: 'Soothing Relaxation', channelId: 'UCjzHeG1KWoonmf9d5KBvSiw', videoId: 'w9S5ID3nfOc', country: 'PIANO', flag: '🎹', timezone: 'Europe/Stockholm' },
-      { name: 'Yellow Brick Cinema', channelId: 'UCwobzUc3z-0PrFpoRxNszXQ', videoId: 'AK-gGnvqOMc', country: 'AMBIENT', flag: '🌿', timezone: 'America/New_York' },
     ],
   },
   {
@@ -150,7 +145,6 @@ const musicGroups: CameraGroup[] = [
     slot: 6,
     cameras: [
       { name: 'STEEZYASFUCK', channelId: 'UCsIg9WMfxjZZvwROleiVsQg', videoId: 'blAFxjhg62k', country: 'JAZZ HIP HOP', flag: '🎷', timezone: 'America/Los_Angeles' },
-      { name: 'The Bootleg Boy', channelId: 'UC0fiLCwTmAukotCXYnqfj0A', videoId: 'FWjZ0x2M8og', country: 'LOFI', flag: '🎶', timezone: 'America/New_York' },
     ],
   },
   {
@@ -158,7 +152,6 @@ const musicGroups: CameraGroup[] = [
     slot: 7,
     cameras: [
       { name: 'The Bootleg Boy', channelId: 'UC0fiLCwTmAukotCXYnqfj0A', videoId: 'FWjZ0x2M8og', country: 'LOFI', flag: '🎶', timezone: 'America/New_York' },
-      { name: 'STEEZYASFUCK', channelId: 'UCsIg9WMfxjZZvwROleiVsQg', videoId: 'blAFxjhg62k', country: 'JAZZ HIP HOP', flag: '🎷', timezone: 'America/Los_Angeles' },
     ],
   },
   {
@@ -166,7 +159,6 @@ const musicGroups: CameraGroup[] = [
     slot: 8,
     cameras: [
       { name: 'OCB Relax Music', channelId: 'UCb1ANUIW7arUUDI-Mwz65rw', videoId: '4khIPP--FDU', country: 'RELAX', flag: '🧘', timezone: 'Europe/Paris' },
-      { name: 'Soothing Relaxation', channelId: 'UCjzHeG1KWoonmf9d5KBvSiw', videoId: 'w9S5ID3nfOc', country: 'PIANO', flag: '🎹', timezone: 'Europe/Stockholm' },
     ],
   },
   {
@@ -174,31 +166,27 @@ const musicGroups: CameraGroup[] = [
     slot: 9,
     cameras: [
       { name: 'Cozy Coffee Shop', channelId: 'UCIWAwKP3_KcWned5aLqZHtw', videoId: 'Gjlg6GGj5U4', country: 'COFFEE JAZZ', flag: '☕', timezone: 'America/New_York' },
-      { name: 'Cafe Music BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'vgw70unQ2vo', country: 'JAZZ', flag: '☕', timezone: 'Asia/Tokyo' },
     ],
   },
   {
     category: 'music',
     slot: 10,
     cameras: [
-      { name: 'Cafe Music BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'vgw70unQ2vo', country: 'JAZZ', flag: '☕', timezone: 'Asia/Tokyo' },
-      { name: 'Lofi Girl', channelId: 'UCSJ4gkVC6NrvII8umztf0Ow', videoId: 'jfKfPfyJRdk', country: 'LOFI HIP HOP', flag: '🎧', timezone: 'Europe/Paris' },
+      { name: 'Your Relax Music', channelId: 'UCm5J1Fu_dHgBMGOBbRY7KYg', videoId: 'HnIjDcVCNW4', country: 'MEDITATION', flag: '🌌', timezone: 'Europe/London' },
     ],
   },
   {
     category: 'music',
     slot: 11,
     cameras: [
-      { name: 'Chillhop Music', channelId: 'UCOxqgCwgOqC2lMqC5PYz_Dg', videoId: 'Mq-3Sjg41n4', country: 'CHILLHOP', flag: '🎵', timezone: 'Europe/Amsterdam' },
-      { name: 'OCB Relax Music', channelId: 'UCb1ANUIW7arUUDI-Mwz65rw', videoId: '4khIPP--FDU', country: 'RELAX', flag: '🧘', timezone: 'Europe/Paris' },
+      { name: 'Oneshinemusic', channelId: 'UCTbBzmNpMiRwMFQCOBCbRCA', videoId: 'Hbq56WnpJeE', country: 'TROPICAL', flag: '🌴', timezone: 'America/New_York' },
     ],
   },
   {
     category: 'music',
     slot: 12,
     cameras: [
-      { name: 'Lofi Girl', channelId: 'UCSJ4gkVC6NrvII8umztf0Ow', videoId: 'jfKfPfyJRdk', country: 'LOFI HIP HOP', flag: '🎧', timezone: 'Europe/Paris' },
-      { name: 'Cafe Music BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'vgw70unQ2vo', country: 'JAZZ', flag: '☕', timezone: 'Asia/Tokyo' },
+      { name: 'Chili AI Music', channelId: 'UCAoX7r7wXKkwSOolURaidsA', videoId: 'X6EyMdL9vw0', country: 'TECHNO', flag: '🎛️', timezone: 'Europe/Berlin' },
     ],
   },
 ];

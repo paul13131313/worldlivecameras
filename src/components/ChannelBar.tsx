@@ -21,7 +21,7 @@ export function ChannelBar({ active, onChange }: ChannelBarProps) {
                 : 'bg-transparent text-white/25 border-white/[0.06] hover:border-white/15 hover:text-white/50'
             }`}
           >
-            {ch.emoji} {ch.label}
+            {ch.label}
           </button>
         );
       })}
