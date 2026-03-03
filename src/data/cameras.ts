@@ -1,4 +1,4 @@
-export type Category = 'wildlife' | 'aurora' | 'ocean' | 'mountain' | 'city' | 'zoo' | 'scenic' | 'news' | 'music';
+export type Category = 'wildlife' | 'aurora' | 'ocean' | 'mountain' | 'city' | 'zoo' | 'scenic' | 'news' | 'music' | 'space' | 'volcano' | 'railroad' | 'weather' | 'animal';
 
 export interface CameraCandidate {
   name: string;
@@ -31,6 +31,11 @@ export const categoryLabels: Record<Category, string> = {
   scenic: '絶景',
   news: 'ニュース',
   music: '音楽',
+  space: '宇宙',
+  volcano: '火山',
+  railroad: '鉄道',
+  weather: '気象',
+  animal: '動物',
 };
 
 export const cameraGroups: CameraGroup[] = [
