@@ -63,7 +63,6 @@ export const cameraGroups: CameraGroup[] = [
     cameras: [
       { name: 'Tembe Elephant Park', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'zqc0Z2oWmo8', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
       { name: 'safariLIVE', channelId: 'UCV6HJBZD_hZcIX9JVJ3dCXQ', videoId: 'MAU57NcV-xE', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
-      { name: 'Namib Waterhole', channelId: 'UC9X6gGKDv2yhMoofoeS7-Gg', videoId: 'ME0dPuBtzug', country: 'NAMIBIA', flag: '🇳🇦', timezone: 'Africa/Windhoek' },
       { name: 'Explore Nature Cams', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'ObR7SBKrkXc', country: 'VARIOUS', flag: '🌍', timezone: 'Africa/Nairobi' },
     ],
   },
@@ -74,17 +73,16 @@ export const cameraGroups: CameraGroup[] = [
     cameras: [
       { name: 'Chengdu Panda Base', channelId: 'UCtEgLf0_j1vJLz0aNEdO2SQ', videoId: '9LvjI3NelAU', country: 'CHINA', flag: '🇨🇳', timezone: 'Asia/Shanghai' },
       { name: 'Monterey Bay Aquarium', channelId: 'UCnM5iMGiKsZg-iOlIO2ZkdQ', videoId: 'nNTVZKz219U', country: 'USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
-      { name: 'Explore Nature Cams', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'ObR7SBKrkXc', country: 'VARIOUS', flag: '🌍', timezone: 'Africa/Nairobi' },
     ],
   },
-  // Slot 5: 🇯🇵 渋谷スクランブル交差点
+  // Slot 5: 🇯🇵 渋谷（専用ライブカメラ）
   {
     category: 'city',
     slot: 5,
     cameras: [
-      { name: 'Shibuya Crossing', channelId: 'UCoQBJMzcwmXrRSHBFAlTsIw', videoId: 'ck_Yl0GgpK4', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
-      { name: 'Times Square', channelId: 'UC6qrG3W8SMK0jior2olka3g', videoId: 'kLoFxVhRWtQ', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
+      { name: 'Shibuya Center Street', channelId: 'UCfCxyg8waxuAPxa8WmBY49g', videoId: 'd1JuNg7knNo', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
       { name: 'Venice Grand Canal', channelId: 'UCMpn1qLudF-zb4M4bqxLIbw', videoId: '7fhy-Eu8AFs', country: 'ITALY', flag: '🇮🇹', timezone: 'Europe/Rome' },
+      { name: 'Times Square', channelId: 'UC6qrG3W8SMK0jior2olka3g', videoId: 'kLoFxVhRWtQ', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
     ],
   },
   // Slot 6: 🇮🇹 Venice Grand Canal
@@ -93,7 +91,6 @@ export const cameraGroups: CameraGroup[] = [
     slot: 6,
     cameras: [
       { name: 'Venice Grand Canal', channelId: 'UCMpn1qLudF-zb4M4bqxLIbw', videoId: '7fhy-Eu8AFs', country: 'ITALY', flag: '🇮🇹', timezone: 'Europe/Rome' },
-      { name: 'Shibuya Crossing', channelId: 'UCoQBJMzcwmXrRSHBFAlTsIw', videoId: 'ck_Yl0GgpK4', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
       { name: 'Times Square', channelId: 'UC6qrG3W8SMK0jior2olka3g', videoId: 'kLoFxVhRWtQ', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
     ],
   },
@@ -107,13 +104,12 @@ export const cameraGroups: CameraGroup[] = [
       { name: 'Fairbanks Aurora', channelId: 'UCUtGnX65osNPQ98Y3-SSgpg', videoId: 'ExKSeDuMqbs', country: 'USA', flag: '🇺🇸', timezone: 'America/Anchorage' },
     ],
   },
-  // Slot 8: 🇯🇵 富士山ライブカメラ
+  // Slot 8: 🇯🇵 富士山ライブカメラ（YBS専用カメラ）
   {
     category: 'mountain',
     slot: 8,
     cameras: [
-      { name: 'Mount Fuji', channelId: 'UCk2oG--VyYST4SYyQkeadjA', videoId: 'CQFZblF3seM', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
-      { name: 'Shibuya Crossing', channelId: 'UCoQBJMzcwmXrRSHBFAlTsIw', videoId: 'ck_Yl0GgpK4', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Mount Fuji (YBS)', channelId: 'UCL3peEBSiAkEMDuxNkffbvw', videoId: '_qdu714QT1E', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
       { name: 'Jackson Hole', channelId: 'UCEpDjqeFIGTqHwk-uULx72Q', videoId: 'XNSFRR5kj-Q', country: 'USA', flag: '🇺🇸', timezone: 'America/Denver' },
     ],
   },
@@ -123,8 +119,6 @@ export const cameraGroups: CameraGroup[] = [
     slot: 9,
     cameras: [
       { name: 'Times Square', channelId: 'UC6qrG3W8SMK0jior2olka3g', videoId: 'kLoFxVhRWtQ', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
-      { name: 'Venice Grand Canal', channelId: 'UCMpn1qLudF-zb4M4bqxLIbw', videoId: '7fhy-Eu8AFs', country: 'ITALY', flag: '🇮🇹', timezone: 'Europe/Rome' },
-      { name: 'Shibuya Crossing', channelId: 'UCoQBJMzcwmXrRSHBFAlTsIw', videoId: 'ck_Yl0GgpK4', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
     ],
   },
   // Slot 10: 🇺🇸 Banzai Pipeline / Monterey Bay
@@ -144,18 +138,15 @@ export const cameraGroups: CameraGroup[] = [
     cameras: [
       { name: 'Niagara Falls', channelId: 'UC15QFO-cdISk-4Sn5CPd78g', videoId: 'cf4YkyGk6Tk', country: 'CANADA', flag: '🇨🇦', timezone: 'America/New_York' },
       { name: 'Jackson Hole', channelId: 'UCEpDjqeFIGTqHwk-uULx72Q', videoId: 'XNSFRR5kj-Q', country: 'USA', flag: '🇺🇸', timezone: 'America/Denver' },
-      { name: 'ISS Earth View', channelId: 'UCLA_DiR1FfKNvjuUpBHmylQ', videoId: 'FV4Q9DryTG8', country: 'SPACE', flag: '🌍', timezone: 'UTC' },
     ],
   },
-  // Slot 12: 🇰🇪 Mpala Research Centre（ケニアの水場）
+  // Slot 12: 🌍 Explore Nature / Safari
   {
     category: 'wildlife',
     slot: 12,
     cameras: [
       { name: 'Explore Nature Cams', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'ObR7SBKrkXc', country: 'VARIOUS', flag: '🌍', timezone: 'Africa/Nairobi' },
       { name: 'safariLIVE', channelId: 'UCV6HJBZD_hZcIX9JVJ3dCXQ', videoId: 'MAU57NcV-xE', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
-      { name: 'Tembe Elephant Park', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'zqc0Z2oWmo8', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
-      { name: 'Namib Waterhole', channelId: 'UC9X6gGKDv2yhMoofoeS7-Gg', videoId: 'ME0dPuBtzug', country: 'NAMIBIA', flag: '🇳🇦', timezone: 'Africa/Windhoek' },
     ],
   },
 ];

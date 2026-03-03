@@ -1,9 +1,8 @@
-import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-import type { Category, ActiveCamera } from './data/cameras';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import type { ActiveCamera } from './data/cameras';
 import { channels, getChannel } from './data/channels';
 import type { ChannelId } from './data/channels';
 import { CameraCard } from './components/CameraCard';
-import { CategoryFilter } from './components/CategoryFilter';
 import { ChannelBar } from './components/ChannelBar';
 import { Modal } from './components/Modal';
 
@@ -11,23 +10,17 @@ const channelIds: ChannelId[] = channels.map((ch) => ch.id);
 
 function App() {
   const [activeChannel, setActiveChannel] = useState<ChannelId>('earth');
-  const [filter, setFilter] = useState<Category | 'all'>('all');
   const [selected, setSelected] = useState<ActiveCamera | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [audioSlot, setAudioSlot] = useState<number | null>(null);
-  const [fading, setFading] = useState(false);
-  const [showChannelOverlay, setShowChannelOverlay] = useState(false);
 
   // Cache: channelId -> Map(slot -> currentIndex)
   const cacheRef = useRef<Map<ChannelId, Map<number, number>>>(new Map());
 
   const channel = getChannel(activeChannel);
 
-  const filtered = useMemo(() => {
-    if (!channel.hasCategories || filter === 'all') return channel.groups;
-    return channel.groups.filter((g) => g.category === filter);
-  }, [channel, filter]);
+  const groups = channel.groups;
 
   // Get cached index for a slot
   const getCachedIndex = useCallback((slot: number): number => {
@@ -43,18 +36,11 @@ function App() {
     cacheRef.current.get(activeChannel)!.set(slot, index);
   }, [activeChannel]);
 
-  // Channel switching with fade transition
+  // Channel switching (instant)
   const switchChannel = useCallback((newChannel: ChannelId) => {
     if (newChannel === activeChannel) return;
-    setAudioSlot(null); // Mute on channel switch
-    setFading(true);
-    setTimeout(() => {
-      setActiveChannel(newChannel);
-      setFilter('all'); // Reset category filter on channel switch
-      setFading(false);
-      // Show channel overlay
-      setShowChannelOverlay(true);
-    }, 300);
+    setAudioSlot(null);
+    setActiveChannel(newChannel);
   }, [activeChannel]);
 
   // Audio toggle: click same slot to unmute/mute, click different slot to switch
@@ -87,13 +73,6 @@ function App() {
     const id = setTimeout(() => setShowHint(false), 3000);
     return () => clearTimeout(id);
   }, [showHint]);
-
-  // Fade out channel overlay after 3 seconds
-  useEffect(() => {
-    if (!showChannelOverlay) return;
-    const id = setTimeout(() => setShowChannelOverlay(false), 3000);
-    return () => clearTimeout(id);
-  }, [showChannelOverlay]);
 
   // Keyboard handler: F (fullscreen), ← → (channel), 1/2/3 (direct), M (mute)
   useEffect(() => {
@@ -152,11 +131,6 @@ function App() {
           <div className="mt-3 px-4">
             <ChannelBar active={activeChannel} onChange={switchChannel} />
           </div>
-          {channel.hasCategories && (
-            <div className="mt-2 px-4">
-              <CategoryFilter selected={filter} onChange={setFilter} />
-            </div>
-          )}
         </header>
       )}
 
@@ -167,28 +141,12 @@ function App() {
         </div>
       )}
 
-      {/* Channel name overlay (shows on switch) */}
-      <div
-        className={`fixed inset-0 flex items-center justify-center z-40 pointer-events-none transition-opacity duration-700 ${
-          showChannelOverlay ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <div className="text-center">
-          <span className="text-4xl md:text-6xl">{channel.emoji}</span>
-          <h2 className="font-display text-xl md:text-3xl text-white/60 tracking-[0.3em] uppercase mt-2 italic">
-            {channel.label}
-          </h2>
-        </div>
-      </div>
-
       {/* Grid — fills remaining viewport */}
       <main className={`flex-1 min-h-0 ${isFullscreen ? 'p-0' : 'px-2 pb-2'}`}>
         <div
-          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 h-full auto-rows-fr ${isFullscreen ? 'gap-1' : 'gap-1.5'} transition-opacity duration-300 ${
-            fading ? 'opacity-0' : 'opacity-100'
-          }`}
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 h-full auto-rows-fr ${isFullscreen ? 'gap-1' : 'gap-1.5'}`}
         >
-          {filtered.map((group) => (
+          {groups.map((group) => (
             <CameraCard
               key={`${activeChannel}-${group.slot}`}
               group={group}

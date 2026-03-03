@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import type { CameraGroup, ActiveCamera } from '../data/cameras';
-import { categoryLabels } from '../data/cameras';
 
 const INITIAL_PLAY_TIMEOUT = 20000;
 const STATE_CHANGE_TIMEOUT = 10000;
@@ -245,20 +244,14 @@ export function CameraCard({ group, onSelect, initialIndex, isAudioOn, onAudioTo
 
   const handleClick = () => {
     if (status === 'live' || status === 'stream') {
-      // Single click toggles audio
-      if (onAudioToggle) {
-        onAudioToggle(group.slot);
-      } else {
-        // Fallback: open modal if no audio toggle handler
-        onSelect({ ...camera, category: group.category });
-      }
+      onSelect({ ...camera, category: group.category });
     }
   };
 
-  const handleExpand = (e: React.MouseEvent) => {
+  const handleAudioClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (status === 'live' || status === 'stream') {
-      onSelect({ ...camera, category: group.category });
+    if (onAudioToggle) {
+      onAudioToggle(group.slot);
     }
   };
 
@@ -321,12 +314,6 @@ export function CameraCard({ group, onSelect, initialIndex, isAudioOn, onAudioTo
         )}
       </div>
 
-      {/* Audio indicator */}
-      {isAudioOn && (status === 'live' || status === 'stream') && (
-        <div className="absolute top-2 left-20 z-30 text-[12px]">
-          🔊
-        </div>
-      )}
 
       {/* Signal indicator with tooltip */}
       <div
@@ -388,21 +375,16 @@ export function CameraCard({ group, onSelect, initialIndex, isAudioOn, onAudioTo
               {camera.country}
             </p>
           </div>
-          <div className="flex items-center gap-1.5 shrink-0">
-            <span className="text-[7px] lg:text-[8px] px-1.5 py-0.5 border border-white/10 text-white/30 tracking-widest uppercase font-light">
-              {categoryLabels[group.category]}
-            </span>
-            {/* Expand button */}
-            {(status === 'live' || status === 'stream') && (
-              <button
-                onClick={handleExpand}
-                className="text-[10px] text-white/30 hover:text-white/70 transition-colors cursor-pointer px-1"
-                title="Expand"
-              >
-                ⛶
-              </button>
-            )}
-          </div>
+          {/* Audio toggle icon */}
+          {(status === 'live' || status === 'stream') && (
+            <button
+              onClick={handleAudioClick}
+              className="text-[14px] text-white/30 hover:text-white/80 transition-colors cursor-pointer shrink-0 px-1 pb-0.5"
+              title={isAudioOn ? 'Mute' : 'Unmute'}
+            >
+              {isAudioOn ? '🔊' : '🔇'}
+            </button>
+          )}
         </div>
       </div>
     </div>
