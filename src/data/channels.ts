@@ -1,7 +1,6 @@
 import type { CameraGroup } from './cameras';
-import { cameraGroups } from './cameras';
 
-export type ChannelId = 'earth' | 'news' | 'music' | 'ocean' | 'city' | 'animal' | 'space' | 'volcano' | 'railroad' | 'weather';
+export type ChannelId = 'earth' | 'news' | 'music' | 'city' | 'volcano' | 'railroad';
 
 export interface Channel {
   id: ChannelId;
@@ -11,7 +10,99 @@ export interface Channel {
   hasCategories: boolean;
 }
 
-// NEWS: 12スロット = 12の異なるニュースチャンネル（重複なし）
+// EARTH: 強化版 — 風景+宇宙+動物+気象の安定カメラを集結
+const earthGroups: CameraGroup[] = [
+  {
+    category: 'wildlife',
+    slot: 1,
+    highAvailability: true,
+    cameras: [
+      { name: 'Namib Waterhole', channelId: 'UC9X6gGKDv2yhMoofoeS7-Gg', videoId: 'ME0dPuBtzug', country: 'NAMIBIA', flag: '🇳🇦', timezone: 'Africa/Windhoek' },
+    ],
+  },
+  {
+    category: 'space',
+    slot: 2,
+    cameras: [
+      { name: 'SpaceX Starbase (LabPadre)', channelId: 'UCFwMITSkc1Fms6PoJoh1OUQ', videoId: 'tS2PHJmvJzo', country: 'USA', flag: '🇺🇸', timezone: 'America/Chicago' },
+    ],
+  },
+  {
+    category: 'wildlife',
+    slot: 3,
+    cameras: [
+      { name: 'Tembe Elephant Park', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'zqc0Z2oWmo8', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
+    ],
+  },
+  {
+    category: 'zoo',
+    slot: 4,
+    cameras: [
+      { name: 'Chengdu Panda Base', channelId: 'UCtEgLf0_j1vJLz0aNEdO2SQ', videoId: '9LvjI3NelAU', country: 'CHINA', flag: '🇨🇳', timezone: 'Asia/Shanghai' },
+    ],
+  },
+  {
+    category: 'city',
+    slot: 5,
+    cameras: [
+      { name: 'Kabukicho Live', channelId: 'UCBFDJXGCOdMjVtg2AnReoXA', videoId: 'gFRtAAmiFbE', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+    ],
+  },
+  {
+    category: 'city',
+    slot: 6,
+    cameras: [
+      { name: 'Venice Grand Canal', channelId: 'UCMpn1qLudF-zb4M4bqxLIbw', videoId: '7fhy-Eu8AFs', country: 'ITALY', flag: '🇮🇹', timezone: 'Europe/Rome' },
+    ],
+  },
+  {
+    category: 'aurora',
+    slot: 7,
+    cameras: [
+      { name: 'Lapland Aurora Cam', channelId: 'UC-whuqv4HIi1O9hh9CHpPJg', videoId: 'bOEvPL206Hc', country: 'FINLAND', flag: '🇫🇮', timezone: 'Europe/Helsinki' },
+    ],
+  },
+  {
+    category: 'ocean',
+    slot: 8,
+    highAvailability: true,
+    cameras: [
+      { name: 'Monterey Bay Jellyfish', channelId: 'UCnM5iMGiKsZg-iOlIO2ZkdQ', videoId: 'NUnJc82ptd4', country: 'USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
+    ],
+  },
+  {
+    category: 'mountain',
+    slot: 9,
+    highAvailability: true,
+    cameras: [
+      { name: 'Swiss Alps Panorama', channelId: 'UC9xLSF0SZDbVa70iTpghQBw', videoId: 'enYFXf8u7Lc', country: 'SWITZERLAND', flag: '🇨🇭', timezone: 'Europe/Zurich' },
+    ],
+  },
+  {
+    category: 'volcano',
+    slot: 10,
+    cameras: [
+      { name: 'Kilauea V3cam', channelId: 'UCeXH8GZyV3sVqAr45AvupOA', videoId: 'gXKuUyKt8mc', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
+    ],
+  },
+  {
+    category: 'wildlife',
+    slot: 11,
+    cameras: [
+      { name: 'Kenya Mpala Waterhole', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'KyQAB-TKOVA', country: 'KENYA', flag: '🇰🇪', timezone: 'Africa/Nairobi' },
+    ],
+  },
+  {
+    category: 'weather',
+    slot: 12,
+    highAvailability: true,
+    cameras: [
+      { name: 'Mt Washington Summit', channelId: 'UCq-cqqXchflIRPLsf_n3wlg', videoId: 'BPeJ6VT8t3k', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
+    ],
+  },
+];
+
+// NEWS: 変更なし（最強チャンネル）
 const newsGroups: CameraGroup[] = [
   {
     category: 'news',
@@ -101,7 +192,7 @@ const newsGroups: CameraGroup[] = [
   },
 ];
 
-// MUSIC: 12スロット = 12の異なる音楽チャンネル（重複なし）
+// MUSIC: 安定した24/7配信のみで再構成
 const musicGroups: CameraGroup[] = [
   {
     category: 'music',
@@ -123,12 +214,13 @@ const musicGroups: CameraGroup[] = [
     category: 'music',
     slot: 3,
     cameras: [
-      { name: 'Cafe Music BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'vgw70unQ2vo', country: 'JAZZ', flag: '☕', timezone: 'Asia/Tokyo' },
+      { name: 'Cafe Music BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'Dx5qFachd3A', country: 'JAZZ PIANO', flag: '☕', timezone: 'Asia/Tokyo' },
     ],
   },
   {
     category: 'music',
     slot: 4,
+    highAvailability: true,
     cameras: [
       { name: 'Yellow Brick Cinema', channelId: 'UCwobzUc3z-0PrFpoRxNszXQ', videoId: 'AK-gGnvqOMc', country: 'AMBIENT', flag: '🌿', timezone: 'America/New_York' },
     ],
@@ -136,6 +228,7 @@ const musicGroups: CameraGroup[] = [
   {
     category: 'music',
     slot: 5,
+    highAvailability: true,
     cameras: [
       { name: 'Soothing Relaxation', channelId: 'UCjzHeG1KWoonmf9d5KBvSiw', videoId: 'w9S5ID3nfOc', country: 'PIANO', flag: '🎹', timezone: 'Europe/Stockholm' },
     ],
@@ -144,150 +237,61 @@ const musicGroups: CameraGroup[] = [
     category: 'music',
     slot: 6,
     cameras: [
-      { name: 'STEEZYASFUCK', channelId: 'UCsIg9WMfxjZZvwROleiVsQg', videoId: 'blAFxjhg62k', country: 'JAZZ HIP HOP', flag: '🎷', timezone: 'America/Los_Angeles' },
+      { name: 'STEEZYASFUCK', channelId: 'UCsIg9WMfxjZZvwROleiVsQg', videoId: '-5KAN9_CzSA', country: 'COFFEE LOFI', flag: '🎷', timezone: 'America/Los_Angeles' },
     ],
   },
   {
     category: 'music',
     slot: 7,
     cameras: [
-      { name: 'The Bootleg Boy', channelId: 'UC0fiLCwTmAukotCXYnqfj0A', videoId: 'FWjZ0x2M8og', country: 'LOFI', flag: '🎶', timezone: 'America/New_York' },
+      { name: 'Lofi Girl Sleep', channelId: 'UCSJ4gkVC6NrvII8umztf0Ow', videoId: '4xDzrJKXOOY', country: 'SLEEP LOFI', flag: '🌙', timezone: 'Europe/Paris' },
     ],
   },
   {
     category: 'music',
     slot: 8,
+    cameras: [
+      { name: 'Lofi Girl Piano', channelId: 'UCSJ4gkVC6NrvII8umztf0Ow', videoId: 'DWcJFNfaw9c', country: 'PIANO', flag: '🎹', timezone: 'Europe/Paris' },
+    ],
+  },
+  {
+    category: 'music',
+    slot: 9,
+    cameras: [
+      { name: 'The Jazz Hop Cafe', channelId: 'UCi8wqezBudeAiTdKOX571ug', videoId: '3GBwFaMwbhU', country: 'JAZZ HOP', flag: '🎶', timezone: 'Europe/Amsterdam' },
+    ],
+  },
+  {
+    category: 'music',
+    slot: 10,
+    cameras: [
+      { name: 'Chillhop Jazzy', channelId: 'UCOxqgCwgOqC2lMqC5PYz_Dg', videoId: '7NOSDKb0HlU', country: 'JAZZY LOFI', flag: '🎺', timezone: 'Europe/Amsterdam' },
+    ],
+  },
+  {
+    category: 'music',
+    slot: 11,
+    cameras: [
+      { name: 'Starburst FM', channelId: 'UCpbH_7H71IPKq4eH7CD5spg', videoId: 'qnStVGoIgBA', country: 'SYNTHWAVE', flag: '🎛️', timezone: 'America/New_York' },
+    ],
+  },
+  {
+    category: 'music',
+    slot: 12,
     cameras: [
       { name: 'OCB Relax Music', channelId: 'UCb1ANUIW7arUUDI-Mwz65rw', videoId: '4khIPP--FDU', country: 'RELAX', flag: '🧘', timezone: 'Europe/Paris' },
     ],
   },
-  {
-    category: 'music',
-    slot: 9,
-    cameras: [
-      { name: 'Cozy Coffee Shop', channelId: 'UCIWAwKP3_KcWned5aLqZHtw', videoId: 'Gjlg6GGj5U4', country: 'COFFEE JAZZ', flag: '☕', timezone: 'America/New_York' },
-    ],
-  },
-  {
-    category: 'music',
-    slot: 10,
-    cameras: [
-      { name: 'Your Relax Music', channelId: 'UCm5J1Fu_dHgBMGOBbRY7KYg', videoId: 'HnIjDcVCNW4', country: 'MEDITATION', flag: '🌌', timezone: 'Europe/London' },
-    ],
-  },
-  {
-    category: 'music',
-    slot: 11,
-    cameras: [
-      { name: 'Oneshinemusic', channelId: 'UCTbBzmNpMiRwMFQCOBCbRCA', videoId: 'Hbq56WnpJeE', country: 'TROPICAL', flag: '🌴', timezone: 'America/New_York' },
-    ],
-  },
-  {
-    category: 'music',
-    slot: 12,
-    cameras: [
-      { name: 'Chili AI Music', channelId: 'UCAoX7r7wXKkwSOolURaidsA', videoId: 'X6EyMdL9vw0', country: 'TECHNO', flag: '🎛️', timezone: 'Europe/Berlin' },
-    ],
-  },
 ];
 
-// OCEAN: 世界の海・水中・ビーチライブカメラ
-const oceanGroups: CameraGroup[] = [
-  {
-    category: 'ocean',
-    slot: 1,
-    cameras: [
-      { name: 'Banzai Pipeline', channelId: 'UCVjFf0Lf_hSdl-Hv1Gt3-Zg', videoId: 'DY5RYp4sxYc', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 2,
-    cameras: [
-      { name: 'Monterey Bay Jelly Cam', channelId: 'UCnM5iMGiKsZg-iOlIO2ZkdQ', videoId: 'NUnJc82ptd4', country: 'CALIFORNIA, USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 3,
-    cameras: [
-      { name: 'Monterey Bay Kelp Forest', channelId: 'UCnM5iMGiKsZg-iOlIO2ZkdQ', videoId: 'w3LjpFhySTg', country: 'CALIFORNIA, USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 4,
-    cameras: [
-      { name: 'Coral City Camera Miami', channelId: 'UCzJhDBpHBPOxMPIoc5BMNHQ', videoId: '7i8ARjIeM2k', country: 'FLORIDA, USA', flag: '🇺🇸', timezone: 'America/New_York' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 5,
-    cameras: [
-      { name: 'Dubrovnik Banje Beach', channelId: 'UC8p5WnMzg8hZjdd5_C--ynQ', videoId: 'qWCDxVNdRkM', country: 'CROATIA', flag: '🇭🇷', timezone: 'Europe/Zagreb' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 6,
-    cameras: [
-      { name: 'Geirangerfjord Norway', channelId: 'UCD3fPz7PdO06e8k75nIwifQ', videoId: 'S4aJlRY39fo', country: 'NORWAY', flag: '🇳🇴', timezone: 'Europe/Oslo' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 7,
-    cameras: [
-      { name: 'Hjørundfjorden Fjord', channelId: 'UCD3fPz7PdO06e8k75nIwifQ', videoId: 'NKaFizWO6w0', country: 'NORWAY', flag: '🇳🇴', timezone: 'Europe/Oslo' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 8,
-    cameras: [
-      { name: 'Waimea Bay Hawaii', channelId: 'UCVjFf0Lf_hSdl-Hv1Gt3-Zg', videoId: 'wnNrd-VjLsQ', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 9,
-    highAvailability: true,
-    cameras: [
-      { name: 'Okinawa Churaumi Aquarium', channelId: 'UCXjkj8-HaOvX7o-fzhOu7Ng', videoId: 'GJiQWmjBfVo', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 10,
-    cameras: [
-      { name: 'Monterey Bay Sea Otter', channelId: 'UCnM5iMGiKsZg-iOlIO2ZkdQ', videoId: 'abbR-Ttd-cA', country: 'CALIFORNIA, USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 11,
-    cameras: [
-      { name: 'Dubrovnik Cavtat View', channelId: 'UC8p5WnMzg8hZjdd5_C--ynQ', videoId: 'uKVVxKvPkKg', country: 'CROATIA', flag: '🇭🇷', timezone: 'Europe/Zagreb' },
-    ],
-  },
-  {
-    category: 'ocean',
-    slot: 12,
-    cameras: [
-      { name: 'Monterey Bay Moon Jelly', channelId: 'UCnM5iMGiKsZg-iOlIO2ZkdQ', videoId: 'IeWhbCe2Krk', country: 'CALIFORNIA, USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
-    ],
-  },
-];
-
-// CITY: 世界の都市ライブカメラ
+// CITY: 京都重複解消、渋谷FNN版に差替、Niagara Falls追加
 const cityGroups: CameraGroup[] = [
   {
     category: 'city',
     slot: 1,
     highAvailability: true,
     cameras: [
-      { name: 'Shibuya Crossing', channelId: 'UCGCZAYq5Xxojl_tSXcVJhiQ', videoId: '8H3nRCFVR6Y', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Shibuya Crossing (FNN)', channelId: 'UCoQBJMzcwmXrRSHBFAlTsIw', videoId: 'dfVK7ld38Ys', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
     ],
   },
   {
@@ -355,202 +359,22 @@ const cityGroups: CameraGroup[] = [
     ],
   },
   {
-    category: 'city',
+    category: 'scenic',
     slot: 11,
     cameras: [
-      { name: 'Kyoto Kiyomizuzaka', channelId: 'UCiO1X79VTO5MV-8EyNWFOpQ', videoId: 'cUnYPpK7ENk', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Niagara Falls', channelId: 'UC15QFO-cdISk-4Sn5CPd78g', videoId: 'cf4YkyGk6Tk', country: 'CANADA', flag: '🇨🇦', timezone: 'America/New_York' },
     ],
   },
   {
-    category: 'city',
+    category: 'scenic',
     slot: 12,
     cameras: [
-      { name: 'Kyoto Fushimi Inari', channelId: 'UCiO1X79VTO5MV-8EyNWFOpQ', videoId: 'MMeBDRfRHyA', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Geirangerfjord Norway', channelId: 'UCD3fPz7PdO06e8k75nIwifQ', videoId: 'S4aJlRY39fo', country: 'NORWAY', flag: '🇳🇴', timezone: 'Europe/Oslo' },
     ],
   },
 ];
 
-// ANIMAL: 世界の動物園・保護施設・巣のライブカメラ
-const animalGroups: CameraGroup[] = [
-  {
-    category: 'animal',
-    slot: 1,
-    highAvailability: true,
-    cameras: [
-      { name: 'iPanda Chengdu', channelId: 'UCtEgLf0_j1vJLz0aNEdO2SQ', videoId: '_A_-TjdZ7lw', country: 'CHINA', flag: '🇨🇳', timezone: 'Asia/Shanghai' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 2,
-    cameras: [
-      { name: 'Monterey Bay Jellyfish', channelId: 'UCnM5iMGiKsZg-iOlIO2ZkdQ', videoId: 'NUnJc82ptd4', country: 'USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 3,
-    cameras: [
-      { name: 'Monterey Bay Sea Otter', channelId: 'UCnM5iMGiKsZg-iOlIO2ZkdQ', videoId: 'abbR-Ttd-cA', country: 'USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 4,
-    cameras: [
-      { name: 'Kenya Mpala Waterhole', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'KyQAB-TKOVA', country: 'KENYA', flag: '🇰🇪', timezone: 'Africa/Nairobi' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 5,
-    highAvailability: true,
-    cameras: [
-      { name: 'Alaska Bear Cam (Katmai)', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'HsLvnFQW_yM', country: 'USA', flag: '🇺🇸', timezone: 'America/Anchorage' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 6,
-    cameras: [
-      { name: 'Decorah Eagle Nest', channelId: 'UCoC_-rIBtLCzAl5l-834jZQ', videoId: 'ry8_KAn9Pzg', country: 'USA', flag: '🇺🇸', timezone: 'America/Chicago' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 7,
-    cameras: [
-      { name: 'Cape Town Penguin Colony', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'StGk_2DA5ig', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 8,
-    cameras: [
-      { name: 'Costa Rica Sloth Cam', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'HViersODKVQ', country: 'COSTA RICA', flag: '🇨🇷', timezone: 'America/Costa_Rica' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 9,
-    cameras: [
-      { name: 'Tembe Elephant Park', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'zqc0Z2oWmo8', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 10,
-    cameras: [
-      { name: 'Namib Waterhole', channelId: 'UC9X6gGKDv2yhMoofoeS7-Gg', videoId: 'ME0dPuBtzug', country: 'NAMIBIA', flag: '🇳🇦', timezone: 'Africa/Windhoek' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 11,
-    cameras: [
-      { name: 'Lone Pine Koala', channelId: 'UCGL4W-Vvt7ndk-XrPQ1im_A', videoId: 'xdPbkvRbCZk', country: 'AUSTRALIA', flag: '🇦🇺', timezone: 'Australia/Brisbane' },
-    ],
-  },
-  {
-    category: 'animal',
-    slot: 12,
-    cameras: [
-      { name: 'Explore Nature Cams', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'ObR7SBKrkXc', country: 'VARIOUS', flag: '🌍', timezone: 'Africa/Nairobi' },
-    ],
-  },
-];
-
-// SPACE: 宇宙・天文ライブカメラ
-const spaceGroups: CameraGroup[] = [
-  {
-    category: 'space',
-    slot: 1,
-    highAvailability: true,
-    cameras: [
-      { name: 'ISS HD Earth View', channelId: 'UCLA_DiR1FfKNvjuUpBHmylQ', videoId: '21X5lGlDOfg', country: 'SPACE', flag: '🌍', timezone: 'UTC' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 2,
-    cameras: [
-      { name: 'ISS Forward Camera', channelId: 'UCmheCYT4HlbFi943lpH8CA', videoId: 'P57qbXekG9Y', country: 'SPACE', flag: '🛸', timezone: 'UTC' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 3,
-    cameras: [
-      { name: 'SpaceX Starbase (LabPadre)', channelId: 'UCFwMITSkc1Fms6PoJoh1OUQ', videoId: 'tS2PHJmvJzo', country: 'USA', flag: '🇺🇸', timezone: 'America/Chicago' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 4,
-    cameras: [
-      { name: 'Starbase Live (NASASpaceflight)', channelId: 'UCSUu1lih2RifWkKtDOJdsBA', videoId: 'mhJRzQsLZGg', country: 'USA', flag: '🇺🇸', timezone: 'America/Chicago' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 5,
-    cameras: [
-      { name: 'Lapland Aurora Cam', channelId: 'UC-whuqv4HIi1O9hh9CHpPJg', videoId: 'bOEvPL206Hc', country: 'FINLAND', flag: '🇫🇮', timezone: 'Europe/Helsinki' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 6,
-    cameras: [
-      { name: 'Lapland Inari Aurora', channelId: 'UC-whuqv4HIi1O9hh9CHpPJg', videoId: 'P5Txi7u6tBs', country: 'FINLAND', flag: '🇫🇮', timezone: 'Europe/Helsinki' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 7,
-    cameras: [
-      { name: 'Lapland Posio Aurora', channelId: 'UC-whuqv4HIi1O9hh9CHpPJg', videoId: 'iOmco6eIa-0', country: 'FINLAND', flag: '🇫🇮', timezone: 'Europe/Helsinki' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 8,
-    cameras: [
-      { name: 'Iceland Aurora', channelId: 'UC7sG1cQ5TFIJarNQa2SSfGw', videoId: 'x60l2rXh47c', country: 'ICELAND', flag: '🇮🇸', timezone: 'Atlantic/Reykjavik' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 9,
-    highAvailability: true,
-    cameras: [
-      { name: 'Mauna Kea StarCam', channelId: 'UCiN7OwV8g8dMm_E0xphBVig', videoId: 'qh6Nqiq6LIg', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 10,
-    cameras: [
-      { name: 'NASA Kennedy Space Center', channelId: 'UCVTomc35agH1SMHanELSLow', videoId: 'nA9UZF-SZoQ', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 11,
-    cameras: [
-      { name: 'Sen 4K ISS View', channelId: 'UCUTDUagK6ql7kWY0QMdYWFw', videoId: 'DDU-rZs-Ic4', country: 'UK', flag: '🇬🇧', timezone: 'Europe/London' },
-    ],
-  },
-  {
-    category: 'space',
-    slot: 12,
-    cameras: [
-      { name: 'NASA Live', channelId: 'UCLA_DiR1FfKNvjuUpBHmylQ', videoId: 'FV4Q9DryTG8', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
-    ],
-  },
-];
-
-// VOLCANO: 世界の火山・地球活動ライブカメラ
+// VOLCANO: 変更なし（良い状態）
 const volcanoGroups: CameraGroup[] = [
   {
     category: 'volcano',
@@ -640,7 +464,7 @@ const volcanoGroups: CameraGroup[] = [
   },
 ];
 
-// RAILROAD: 世界の鉄道ライブカメラ
+// RAILROAD: 変更なし
 const railroadGroups: CameraGroup[] = [
   {
     category: 'railroad',
@@ -730,102 +554,12 @@ const railroadGroups: CameraGroup[] = [
   },
 ];
 
-// WEATHER: 世界の気象・嵐ライブカメラ
-const weatherGroups: CameraGroup[] = [
-  {
-    category: 'weather',
-    slot: 1,
-    cameras: [
-      { name: 'Texas Storm Chasers', channelId: 'UCoIfgmxArIATc2EpHD3W9EA', videoId: 'So8K7n6tYRA', country: 'USA', flag: '🇺🇸', timezone: 'America/Chicago' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 2,
-    highAvailability: true,
-    cameras: [
-      { name: 'Mt Washington Wildcat Cam', channelId: 'UCq-cqqXchflIRPLsf_n3wlg', videoId: 'BPeJ6VT8t3k', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 3,
-    cameras: [
-      { name: 'Mt Washington Presidentials', channelId: 'UCq-cqqXchflIRPLsf_n3wlg', videoId: 'zJjiTnGlSSM', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 4,
-    cameras: [
-      { name: 'Mt Washington Tower Cam', channelId: 'UCq-cqqXchflIRPLsf_n3wlg', videoId: 'EVW-Q363_b8', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 5,
-    highAvailability: true,
-    cameras: [
-      { name: 'Swiss Alps Panorama 24/7', channelId: 'UC9xLSF0SZDbVa70iTpghQBw', videoId: 'enYFXf8u7Lc', country: 'SWITZERLAND', flag: '🇨🇭', timezone: 'Europe/Zurich' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 6,
-    cameras: [
-      { name: 'Iceland Volcano & Weather', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: '4B-xBkUX4jM', country: 'ICELAND', flag: '🇮🇸', timezone: 'Atlantic/Reykjavik' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 7,
-    cameras: [
-      { name: 'Himawari Satellite Live', channelId: 'UCxfKytzQPCOfyhdsp48CD_A', videoId: 'ch9_qqoxQwU', country: 'GLOBAL', flag: '🌏', timezone: 'Asia/Tokyo' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 8,
-    cameras: [
-      { name: 'Earth Cloud Satellite', channelId: 'UCxfKytzQPCOfyhdsp48CD_A', videoId: 'ELIW5qiE5Yw', country: 'GLOBAL', flag: '🌍', timezone: 'UTC' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 9,
-    cameras: [
-      { name: 'Sydney Harbour Weather', channelId: 'UCcVY8_gD43Eh4FYE0TS-gqQ', videoId: '5uZa3-RMFos', country: 'AUSTRALIA', flag: '🇦🇺', timezone: 'Australia/Sydney' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 10,
-    cameras: [
-      { name: 'Geirangerfjord Weather', channelId: 'UCD3fPz7PdO06e8k75nIwifQ', videoId: 'S4aJlRY39fo', country: 'NORWAY', flag: '🇳🇴', timezone: 'Europe/Oslo' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 11,
-    cameras: [
-      { name: 'Lapland Arctic Sky', channelId: 'UC-whuqv4HIi1O9hh9CHpPJg', videoId: 'bOEvPL206Hc', country: 'FINLAND', flag: '🇫🇮', timezone: 'Europe/Helsinki' },
-    ],
-  },
-  {
-    category: 'weather',
-    slot: 12,
-    cameras: [
-      { name: 'Sakurajima Weather Cam', channelId: 'UCpWU25qIleNLmUEF9VwBdMA', videoId: 'uCbr0YLxsac', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
-    ],
-  },
-];
-
 export const channels: Channel[] = [
   {
     id: 'earth',
     label: 'EARTH',
     emoji: '🌍',
-    groups: cameraGroups,
+    groups: earthGroups,
     hasCategories: false,
   },
   {
@@ -843,31 +577,10 @@ export const channels: Channel[] = [
     hasCategories: false,
   },
   {
-    id: 'ocean',
-    label: 'OCEAN',
-    emoji: '🌊',
-    groups: oceanGroups,
-    hasCategories: false,
-  },
-  {
     id: 'city',
     label: 'CITY',
     emoji: '🏙️',
     groups: cityGroups,
-    hasCategories: false,
-  },
-  {
-    id: 'animal',
-    label: 'ANIMAL',
-    emoji: '🐾',
-    groups: animalGroups,
-    hasCategories: false,
-  },
-  {
-    id: 'space',
-    label: 'SPACE',
-    emoji: '🌌',
-    groups: spaceGroups,
     hasCategories: false,
   },
   {
@@ -882,13 +595,6 @@ export const channels: Channel[] = [
     label: 'RAILROAD',
     emoji: '🚂',
     groups: railroadGroups,
-    hasCategories: false,
-  },
-  {
-    id: 'weather',
-    label: 'WEATHER',
-    emoji: '⛈️',
-    groups: weatherGroups,
     hasCategories: false,
   },
 ];
