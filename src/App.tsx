@@ -6,6 +6,9 @@ import { CameraCard } from './components/CameraCard';
 import type { SlotStatus } from './components/CameraCard';
 import { ChannelBar } from './components/ChannelBar';
 import { Modal } from './components/Modal';
+import { CastButton } from './components/CastButton';
+import { useCast } from './hooks/useCast';
+import type { CastCamera } from './hooks/useCast';
 
 const channelIds: ChannelId[] = channels.map((ch) => ch.id);
 
@@ -29,9 +32,27 @@ function App() {
   // Cache: channelId -> Map(slot -> currentIndex)
   const cacheRef = useRef<Map<ChannelId, Map<number, number>>>(new Map());
 
+  const { isAvailable: castAvailable, isConnected: castConnected, deviceName: castDevice, sendChannel } = useCast();
+
   const channel = getChannel(activeChannel);
 
   const groups = channel.groups;
+
+  // チャンネルデータからCast用のカメラリストを生成
+  const getCastCameras = useCallback((chId: ChannelId): CastCamera[] => {
+    const ch = getChannel(chId);
+    return ch.groups.slice(0, 4).map((g) => ({
+      videoId: g.cameras[0]?.videoId ?? '',
+      label: g.cameras[0]?.name ?? '',
+    }));
+  }, []);
+
+  // Cast接続時・チャンネル変更時にReceiverへ送信
+  useEffect(() => {
+    if (castConnected) {
+      sendChannel(activeChannel, getCastCameras(activeChannel));
+    }
+  }, [castConnected, activeChannel, sendChannel, getCastCameras]);
 
   // Get cached index for a slot
   const getCachedIndex = useCallback((slot: number): number => {
@@ -199,10 +220,13 @@ function App() {
     <div className="h-screen bg-black flex flex-col overflow-hidden">
       {/* Header + ChannelBar + Filter (hidden in fullscreen) */}
       {!isFullscreen && (
-        <header className="shrink-0 pt-6 pb-4 text-center">
+        <header className="shrink-0 pt-6 pb-4 text-center relative">
           <h1 className="font-display text-2xl md:text-3xl lg:text-4xl font-normal tracking-wide text-white italic">
             World Live Cameras
           </h1>
+          <div className="absolute top-6 right-4">
+            <CastButton isAvailable={castAvailable} isConnected={castConnected} deviceName={castDevice} />
+          </div>
           <div className="mt-3 px-4">
             <ChannelBar active={activeChannel} onChange={switchChannel} />
           </div>

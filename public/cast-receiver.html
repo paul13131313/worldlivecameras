@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>WLC Cast Receiver</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; overflow: hidden; width: 100vw; height: 100vh; }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      width: 100%;
+      height: 100%;
+      gap: 2px;
+    }
+    .cell { position: relative; overflow: hidden; }
+    .cell iframe { width: 100%; height: 100%; border: none; }
+    .label {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 14px;
+    }
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      color: rgba(255,255,255,0.4);
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.1em;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="loading" id="loading">WORLD LIVE CAMERAS</div>
+  <div class="grid" id="grid" style="display:none;"></div>
+
+  <script src="//www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+  <script>
+    var NAMESPACE = 'urn:x-cast:com.worldlivecameras.channel';
+
+    // デフォルト: EARTHチャンネルの最初の4カメラ
+    var DEFAULT_CAMERAS = [
+      { videoId: 'ME0dPuBtzug', label: 'Namib Waterhole' },
+      { videoId: 'tS2PHJmvJzo', label: 'SpaceX Starbase' },
+      { videoId: 'zqc0Z2oWmo8', label: 'Tembe Elephant Park' },
+      { videoId: '9LvjI3NelAU', label: 'Chengdu Panda Base' },
+    ];
+
+    function buildGrid(cameras) {
+      var grid = document.getElementById('grid');
+      var loading = document.getElementById('loading');
+      grid.innerHTML = '';
+
+      cameras.slice(0, 4).forEach(function(cam) {
+        var cell = document.createElement('div');
+        cell.className = 'cell';
+
+        var iframe = document.createElement('iframe');
+        iframe.src = 'https://www.youtube.com/embed/' + cam.videoId +
+          '?autoplay=1&mute=1&controls=0&playsinline=1&rel=0&modestbranding=1&enablejsapi=1';
+        iframe.allow = 'autoplay; encrypted-media';
+        iframe.allowFullscreen = true;
+        cell.appendChild(iframe);
+
+        var label = document.createElement('div');
+        label.className = 'label';
+        label.textContent = cam.label;
+        cell.appendChild(label);
+
+        grid.appendChild(cell);
+      });
+
+      loading.style.display = 'none';
+      grid.style.display = 'grid';
+    }
+
+    // Cast Receiver 初期化
+    var context = cast.framework.CastReceiverContext.getInstance();
+    var options = new cast.framework.CastReceiverOptions();
+    options.disableIdleTimeout = true;
+
+    // カスタムメッセージリスナー
+    context.addCustomMessageListener(NAMESPACE, function(event) {
+      var data = event.data;
+      if (data && data.type === 'LOAD_CHANNEL' && Array.isArray(data.cameras)) {
+        buildGrid(data.cameras);
+      }
+    });
+
+    context.start(options);
+
+    // デフォルトカメラを表示
+    buildGrid(DEFAULT_CAMERAS);
+  </script>
+</body>
+</html>
