@@ -10,7 +10,7 @@ export interface Channel {
   hasCategories: boolean;
 }
 
-// EARTH: 強化版 — 風景+宇宙+動物+気象の安定カメラを集結
+// EARTH: 風景+宇宙+動物+気象の安定カメラ — 予備プール強化版
 const earthGroups: CameraGroup[] = [
   {
     category: 'wildlife',
@@ -18,6 +18,7 @@ const earthGroups: CameraGroup[] = [
     highAvailability: true,
     cameras: [
       { name: 'Namib Waterhole', channelId: 'UC9X6gGKDv2yhMoofoeS7-Gg', videoId: 'ME0dPuBtzug', country: 'NAMIBIA', flag: '🇳🇦', timezone: 'Africa/Windhoek' },
+      { name: 'NamibiaCam Desert', channelId: 'UC9X6gGKDv2yhMoofoeS7-Gg', videoId: 'ydYDqZQpim8', country: 'NAMIBIA', flag: '🇳🇦', timezone: 'Africa/Windhoek' },
     ],
   },
   {
@@ -32,6 +33,7 @@ const earthGroups: CameraGroup[] = [
     slot: 3,
     cameras: [
       { name: 'Tembe Elephant Park', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'zqc0Z2oWmo8', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
+      { name: 'Africam Safari Live', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'qpukdDslCjk', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
     ],
   },
   {
@@ -76,33 +78,38 @@ const earthGroups: CameraGroup[] = [
     highAvailability: true,
     cameras: [
       { name: 'Swiss Alps Panorama', channelId: 'UC9xLSF0SZDbVa70iTpghQBw', videoId: 'enYFXf8u7Lc', country: 'SWITZERLAND', flag: '🇨🇭', timezone: 'Europe/Zurich' },
+      { name: 'Grimentz Live Cam', channelId: 'UC9xLSF0SZDbVa70iTpghQBw', videoId: 'iCxfe27HpaY', country: 'SWITZERLAND', flag: '🇨🇭', timezone: 'Europe/Zurich' },
     ],
   },
   {
     category: 'volcano',
     slot: 10,
     cameras: [
-      { name: 'Kilauea V3cam', channelId: 'UCeXH8GZyV3sVqAr45AvupOA', videoId: 'gXKuUyKt8mc', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
+      { name: 'Kilauea Volcano Watch', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: 'FVdmnpJ2kM0', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
+      { name: 'Kilauea Cam A', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: 'iws3rh5vLAQ', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
     ],
   },
   {
     category: 'wildlife',
     slot: 11,
     cameras: [
-      { name: 'Kenya Mpala Waterhole', channelId: 'UC-2KSeUU5SMCX6XLRD-AEvw', videoId: 'KyQAB-TKOVA', country: 'KENYA', flag: '🇰🇪', timezone: 'Africa/Nairobi' },
+      { name: 'Africam Safari Live', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'qpukdDslCjk', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
+      { name: 'ol Donyo Lodge Kenya', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'XsOU8JnEpNM', country: 'KENYA', flag: '🇰🇪', timezone: 'Africa/Nairobi' },
+      { name: 'Tembe Elephant Park', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'zqc0Z2oWmo8', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
     ],
   },
   {
-    category: 'weather',
+    category: 'wildlife',
     slot: 12,
-    highAvailability: true,
     cameras: [
-      { name: 'Mt Washington Summit', channelId: 'UCq-cqqXchflIRPLsf_n3wlg', videoId: 'BPeJ6VT8t3k', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
+      { name: 'ol Donyo Lodge Kenya', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'XsOU8JnEpNM', country: 'KENYA', flag: '🇰🇪', timezone: 'Africa/Nairobi' },
+      { name: 'NamibiaCam Desert', channelId: 'UC9X6gGKDv2yhMoofoeS7-Gg', videoId: 'ydYDqZQpim8', country: 'NAMIBIA', flag: '🇳🇦', timezone: 'Africa/Windhoek' },
+      { name: 'Africam Safari Live', channelId: 'UCuoNAKa3P0QR1Lw9QdpmoVg', videoId: 'qpukdDslCjk', country: 'SOUTH AFRICA', flag: '🇿🇦', timezone: 'Africa/Johannesburg' },
     ],
   },
 ];
 
-// NEWS: 変更なし（最強チャンネル）
+// NEWS: NDTV→Sky News差し替え、予備プール強化
 const newsGroups: CameraGroup[] = [
   {
     category: 'news',
@@ -118,6 +125,7 @@ const newsGroups: CameraGroup[] = [
     highAvailability: true,
     cameras: [
       { name: 'France 24 English', channelId: 'UCCCPCZNChQdGa9EkATeye4g', videoId: 'l8PMl7tUDIE', country: 'FRANCE', flag: '🇫🇷', timezone: 'Europe/Paris' },
+      { name: 'France 24 English Alt', channelId: 'UCCCPCZNChQdGa9EkATeye4g', videoId: 'Ap-UM1O9RBU', country: 'FRANCE', flag: '🇫🇷', timezone: 'Europe/Paris' },
     ],
   },
   {
@@ -173,7 +181,8 @@ const newsGroups: CameraGroup[] = [
     category: 'news',
     slot: 10,
     cameras: [
-      { name: 'NDTV 24x7', channelId: 'UCZFMm1mMw0F81Z37aaEzTUA', videoId: '_h0KLwDm4Vg', country: 'INDIA', flag: '🇮🇳', timezone: 'Asia/Kolkata' },
+      { name: 'Sky News', channelId: 'UCDjB4RBVBUOLuAG1o9N5XzA', videoId: 'YDvsBbKfLPA', country: 'UK', flag: '🇬🇧', timezone: 'Europe/London' },
+      { name: 'Al Jazeera English', channelId: 'UCNye-wNBqNL5ZzHSJj3l8Bg', videoId: 'gCNeDWCI0vo', country: 'QATAR', flag: '🇶🇦', timezone: 'Asia/Qatar' },
     ],
   },
   {
@@ -188,11 +197,12 @@ const newsGroups: CameraGroup[] = [
     slot: 12,
     cameras: [
       { name: 'TeleSUR English', channelId: 'UCmuTmpLY35O3csvhyA6vrkg', videoId: '3nN3vtMzxTo', country: 'VENEZUELA', flag: '🇻🇪', timezone: 'America/Caracas' },
+      { name: 'Sky News', channelId: 'UCDjB4RBVBUOLuAG1o9N5XzA', videoId: 'YDvsBbKfLPA', country: 'UK', flag: '🇬🇧', timezone: 'Europe/London' },
     ],
   },
 ];
 
-// MUSIC: 安定した24/7配信のみで再構成
+// MUSIC: OFFLINE3件差し替え + 予備プール強化
 const musicGroups: CameraGroup[] = [
   {
     category: 'music',
@@ -208,6 +218,7 @@ const musicGroups: CameraGroup[] = [
     highAvailability: true,
     cameras: [
       { name: 'Chillhop Music', channelId: 'UCOxqgCwgOqC2lMqC5PYz_Dg', videoId: 'Mq-3Sjg41n4', country: 'CHILLHOP', flag: '🎵', timezone: 'Europe/Amsterdam' },
+      { name: 'Chillhop Jazzy', channelId: 'UCOxqgCwgOqC2lMqC5PYz_Dg', videoId: '7NOSDKb0HlU', country: 'JAZZY LOFI', flag: '🎺', timezone: 'Europe/Amsterdam' },
     ],
   },
   {
@@ -215,6 +226,7 @@ const musicGroups: CameraGroup[] = [
     slot: 3,
     cameras: [
       { name: 'Cafe Music BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'Dx5qFachd3A', country: 'JAZZ PIANO', flag: '☕', timezone: 'Asia/Tokyo' },
+      { name: 'Rainy Jazz BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'DSGyEsJ17cI', country: 'RAINY JAZZ', flag: '🌧️', timezone: 'Asia/Tokyo' },
     ],
   },
   {
@@ -237,7 +249,9 @@ const musicGroups: CameraGroup[] = [
     category: 'music',
     slot: 6,
     cameras: [
-      { name: 'STEEZYASFUCK', channelId: 'UCsIg9WMfxjZZvwROleiVsQg', videoId: '-5KAN9_CzSA', country: 'COFFEE LOFI', flag: '🎷', timezone: 'America/Los_Angeles' },
+      { name: 'Coffee Jazz BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'fEvM-OUbaKs', country: 'COFFEE JAZZ', flag: '☕', timezone: 'Asia/Tokyo' },
+      { name: 'Cafe Music BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'Dx5qFachd3A', country: 'JAZZ PIANO', flag: '☕', timezone: 'Asia/Tokyo' },
+      { name: 'Rainy Jazz BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'DSGyEsJ17cI', country: 'RAINY JAZZ', flag: '🌧️', timezone: 'Asia/Tokyo' },
     ],
   },
   {
@@ -245,20 +259,25 @@ const musicGroups: CameraGroup[] = [
     slot: 7,
     cameras: [
       { name: 'Lofi Girl Sleep', channelId: 'UCSJ4gkVC6NrvII8umztf0Ow', videoId: '4xDzrJKXOOY', country: 'SLEEP LOFI', flag: '🌙', timezone: 'Europe/Paris' },
+      { name: 'Lofi Girl', channelId: 'UCSJ4gkVC6NrvII8umztf0Ow', videoId: 'jfKfPfyJRdk', country: 'LOFI HIP HOP', flag: '🎧', timezone: 'Europe/Paris' },
     ],
   },
   {
     category: 'music',
     slot: 8,
     cameras: [
-      { name: 'Lofi Girl Piano', channelId: 'UCSJ4gkVC6NrvII8umztf0Ow', videoId: 'DWcJFNfaw9c', country: 'PIANO', flag: '🎹', timezone: 'Europe/Paris' },
+      { name: 'Rainy Jazz BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'DSGyEsJ17cI', country: 'RAINY JAZZ', flag: '🌧️', timezone: 'Asia/Tokyo' },
+      { name: 'Coffee Jazz BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'fEvM-OUbaKs', country: 'COFFEE JAZZ', flag: '☕', timezone: 'Asia/Tokyo' },
+      { name: 'Cafe Music BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'Dx5qFachd3A', country: 'JAZZ PIANO', flag: '☕', timezone: 'Asia/Tokyo' },
     ],
   },
   {
     category: 'music',
     slot: 9,
     cameras: [
-      { name: 'The Jazz Hop Cafe', channelId: 'UCi8wqezBudeAiTdKOX571ug', videoId: '3GBwFaMwbhU', country: 'JAZZ HOP', flag: '🎶', timezone: 'Europe/Amsterdam' },
+      { name: 'STEEZYASFUCK', channelId: 'UCsIg9WMfxjZZvwROleiVsQg', videoId: 'rPjez8z61rI', country: 'LOFI BEATS', flag: '🎷', timezone: 'America/Los_Angeles' },
+      { name: 'Chillhop Jazzy', channelId: 'UCOxqgCwgOqC2lMqC5PYz_Dg', videoId: '7NOSDKb0HlU', country: 'JAZZY LOFI', flag: '🎺', timezone: 'Europe/Amsterdam' },
+      { name: 'Coffee Jazz BGM', channelId: 'UCJhjE7wbdYAae1G25m0tHAA', videoId: 'fEvM-OUbaKs', country: 'COFFEE JAZZ', flag: '☕', timezone: 'Asia/Tokyo' },
     ],
   },
   {
@@ -266,6 +285,7 @@ const musicGroups: CameraGroup[] = [
     slot: 10,
     cameras: [
       { name: 'Chillhop Jazzy', channelId: 'UCOxqgCwgOqC2lMqC5PYz_Dg', videoId: '7NOSDKb0HlU', country: 'JAZZY LOFI', flag: '🎺', timezone: 'Europe/Amsterdam' },
+      { name: 'Chillhop Music', channelId: 'UCOxqgCwgOqC2lMqC5PYz_Dg', videoId: 'Mq-3Sjg41n4', country: 'CHILLHOP', flag: '🎵', timezone: 'Europe/Amsterdam' },
     ],
   },
   {
@@ -273,6 +293,7 @@ const musicGroups: CameraGroup[] = [
     slot: 11,
     cameras: [
       { name: 'Starburst FM', channelId: 'UCpbH_7H71IPKq4eH7CD5spg', videoId: 'qnStVGoIgBA', country: 'SYNTHWAVE', flag: '🎛️', timezone: 'America/New_York' },
+      { name: 'Yellow Brick Cinema', channelId: 'UCwobzUc3z-0PrFpoRxNszXQ', videoId: 'AK-gGnvqOMc', country: 'AMBIENT', flag: '🌿', timezone: 'America/New_York' },
     ],
   },
   {
@@ -280,18 +301,21 @@ const musicGroups: CameraGroup[] = [
     slot: 12,
     cameras: [
       { name: 'OCB Relax Music', channelId: 'UCb1ANUIW7arUUDI-Mwz65rw', videoId: '4khIPP--FDU', country: 'RELAX', flag: '🧘', timezone: 'Europe/Paris' },
+      { name: 'Soothing Relaxation', channelId: 'UCjzHeG1KWoonmf9d5KBvSiw', videoId: 'w9S5ID3nfOc', country: 'PIANO', flag: '🎹', timezone: 'Europe/Stockholm' },
     ],
   },
 ];
 
-// CITY: 京都重複解消、渋谷FNN版に差替、Niagara Falls追加
+// CITY: FNN→道頓堀、Venice Scalzi→リスボン、予備プール強化
 const cityGroups: CameraGroup[] = [
   {
     category: 'city',
     slot: 1,
     highAvailability: true,
     cameras: [
-      { name: 'Shibuya Crossing (FNN)', channelId: 'UCoQBJMzcwmXrRSHBFAlTsIw', videoId: 'dfVK7ld38Ys', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Osaka Dotonbori', channelId: 'UCU1ePnMBda3EquSoajyIcDQ', videoId: 'bzn2QWfOLFY', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Osaka Dotonbori Alt', channelId: 'UCDIaC5SUjf-XaAoEDsypZYA', videoId: 'AFlBqWizglo', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Osaka Shinsaibashi', channelId: 'UCDIaC5SUjf-XaAoEDsypZYA', videoId: 'YZMZSqz9fx8', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
     ],
   },
   {
@@ -355,7 +379,9 @@ const cityGroups: CameraGroup[] = [
     category: 'city',
     slot: 10,
     cameras: [
-      { name: 'Venice Scalzi Bridge 4K', channelId: 'UCMpn1qLudF-zb4M4bqxLIbw', videoId: '4wKN93E3K8g', country: 'ITALY', flag: '🇮🇹', timezone: 'Europe/Rome' },
+      { name: 'Lisbon City View', channelId: 'UCwYD-A22jUcJHRYU98NJJgA', videoId: 'VbDwJxGlZ5k', country: 'PORTUGAL', flag: '🇵🇹', timezone: 'Europe/Lisbon' },
+      { name: 'Stockholm Skyline', channelId: 'UCwYD-A22jUcJHRYU98NJJgA', videoId: 'agY6ZaM1G_o', country: 'SWEDEN', flag: '🇸🇪', timezone: 'Europe/Stockholm' },
+      { name: 'Bangkok Sukhumvit', channelId: 'UCwYD-A22jUcJHRYU98NJJgA', videoId: 'UemFRPrl1hk', country: 'THAILAND', flag: '🇹🇭', timezone: 'Asia/Bangkok' },
     ],
   },
   {
@@ -370,11 +396,12 @@ const cityGroups: CameraGroup[] = [
     slot: 12,
     cameras: [
       { name: 'Geirangerfjord Norway', channelId: 'UCD3fPz7PdO06e8k75nIwifQ', videoId: 'S4aJlRY39fo', country: 'NORWAY', flag: '🇳🇴', timezone: 'Europe/Oslo' },
+      { name: 'Sweden Now', channelId: 'UCwYD-A22jUcJHRYU98NJJgA', videoId: 'Ldl6olpY64s', country: 'SWEDEN', flag: '🇸🇪', timezone: 'Europe/Stockholm' },
     ],
   },
 ];
 
-// VOLCANO: 変更なし（良い状態）
+// VOLCANO: Mt Etna予備追加、Iceland Reykjanes差し替え
 const volcanoGroups: CameraGroup[] = [
   {
     category: 'volcano',
@@ -382,6 +409,7 @@ const volcanoGroups: CameraGroup[] = [
     highAvailability: true,
     cameras: [
       { name: 'Kilauea V1cam (West Crater)', channelId: 'UCeXH8GZyV3sVqAr45AvupOA', videoId: 'tk0tfYDxrUA', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
+      { name: 'Kilauea Volcano Watch', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: 'FVdmnpJ2kM0', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
     ],
   },
   {
@@ -389,6 +417,7 @@ const volcanoGroups: CameraGroup[] = [
     slot: 2,
     cameras: [
       { name: 'Kilauea V3cam (South Crater)', channelId: 'UCeXH8GZyV3sVqAr45AvupOA', videoId: 'gXKuUyKt8mc', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
+      { name: 'Kilauea Cam A', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: 'iws3rh5vLAQ', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
     ],
   },
   {
@@ -411,6 +440,8 @@ const volcanoGroups: CameraGroup[] = [
     slot: 5,
     cameras: [
       { name: 'Mount Etna 24/7', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: 'EGk3Mr0OshE', country: 'ITALY', flag: '🇮🇹', timezone: 'Europe/Rome' },
+      { name: 'Etna East Panorama', channelId: 'UCwYD-A22jUcJHRYU98NJJgA', videoId: 'pO2zFFeqiMo', country: 'ITALY', flag: '🇮🇹', timezone: 'Europe/Rome' },
+      { name: 'Etna South Sapienza', channelId: 'UCwYD-A22jUcJHRYU98NJJgA', videoId: 'ThX2Znx9zZY', country: 'ITALY', flag: '🇮🇹', timezone: 'Europe/Rome' },
     ],
   },
   {
@@ -459,12 +490,14 @@ const volcanoGroups: CameraGroup[] = [
     category: 'volcano',
     slot: 12,
     cameras: [
-      { name: 'Iceland Reykjanes Multi-cam', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: 'eYW_FvsDfZ8', country: 'ICELAND', flag: '🇮🇸', timezone: 'Atlantic/Reykjavik' },
+      { name: 'Kilauea Cam A (afarTV)', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: 'iws3rh5vLAQ', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
+      { name: 'Kilauea Volcano Watch', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: 'FVdmnpJ2kM0', country: 'HAWAII, USA', flag: '🇺🇸', timezone: 'Pacific/Honolulu' },
+      { name: 'Iceland Volcano Watch', channelId: 'UCaG0IHN1RMOZ4-U3wDXAkwA', videoId: '4B-xBkUX4jM', country: 'ICELAND', flag: '🇮🇸', timezone: 'Atlantic/Reykjavik' },
     ],
   },
 ];
 
-// RAILROAD: 変更なし
+// RAILROAD: Fort Madison・Muncie・Alt差し替え、予備プール強化
 const railroadGroups: CameraGroup[] = [
   {
     category: 'railroad',
@@ -472,6 +505,7 @@ const railroadGroups: CameraGroup[] = [
     highAvailability: true,
     cameras: [
       { name: 'Tehachapi Loop', channelId: 'UC6RIkXobtXWJElbwEHIC-sg', videoId: 'pCpkspPc-n0', country: 'USA', flag: '🇺🇸', timezone: 'America/Los_Angeles' },
+      { name: 'La Grange KY Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: '9SLt3AT0rXk', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
     ],
   },
   {
@@ -479,6 +513,7 @@ const railroadGroups: CameraGroup[] = [
     slot: 2,
     cameras: [
       { name: 'Railcam UK (Seaton Tramway)', channelId: 'UC6YuojLzzdEMjbFiMHyecug', videoId: 'd41DPPsnHaY', country: 'UK', flag: '🇬🇧', timezone: 'Europe/London' },
+      { name: 'Railcam UK York', channelId: 'UC6YuojLzzdEMjbFiMHyecug', videoId: 'vByZX49lCic', country: 'UK', flag: '🇬🇧', timezone: 'Europe/London' },
     ],
   },
   {
@@ -494,13 +529,16 @@ const railroadGroups: CameraGroup[] = [
     highAvailability: true,
     cameras: [
       { name: 'Tohoku Shinkansen Live', channelId: 'UCHxsYayZMyj1RbaAgxU0lCQ', videoId: 'rsbGgSQi4bg', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Japan Shinkansen Alt', channelId: 'UCHxsYayZMyj1RbaAgxU0lCQ', videoId: 'sgrAfWdVa0E', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
     ],
   },
   {
     category: 'railroad',
     slot: 5,
     cameras: [
-      { name: 'Fort Madison Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: 'cOHhA_XIZZw', country: 'USA', flag: '🇺🇸', timezone: 'America/Chicago' },
+      { name: 'La Grange KY Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: '9SLt3AT0rXk', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
+      { name: 'Flagstaff AZ Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: '7xdHH9KMSVk', country: 'USA', flag: '🇺🇸', timezone: 'America/Phoenix' },
+      { name: 'Ashland VA Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: 'wgkdREYOfw0', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
     ],
   },
   {
@@ -514,7 +552,9 @@ const railroadGroups: CameraGroup[] = [
     category: 'railroad',
     slot: 7,
     cameras: [
-      { name: 'Virtual Railfan (Muncie IN)', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: '5JG-4mwWWrQ', country: 'USA', flag: '🇺🇸', timezone: 'America/Indiana/Indianapolis' },
+      { name: 'Flagstaff AZ Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: '7xdHH9KMSVk', country: 'USA', flag: '🇺🇸', timezone: 'America/Phoenix' },
+      { name: 'La Grange KY Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: '9SLt3AT0rXk', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
+      { name: 'Ashland VA Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: 'wgkdREYOfw0', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
     ],
   },
   {
@@ -529,6 +569,7 @@ const railroadGroups: CameraGroup[] = [
     slot: 9,
     cameras: [
       { name: 'Japan Shinkansen Alt', channelId: 'UCHxsYayZMyj1RbaAgxU0lCQ', videoId: 'sgrAfWdVa0E', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
+      { name: 'Tohoku Shinkansen Live', channelId: 'UCHxsYayZMyj1RbaAgxU0lCQ', videoId: 'rsbGgSQi4bg', country: 'JAPAN', flag: '🇯🇵', timezone: 'Asia/Tokyo' },
     ],
   },
   {
@@ -536,6 +577,7 @@ const railroadGroups: CameraGroup[] = [
     slot: 10,
     cameras: [
       { name: 'Railcam UK York', channelId: 'UC6YuojLzzdEMjbFiMHyecug', videoId: 'vByZX49lCic', country: 'UK', flag: '🇬🇧', timezone: 'Europe/London' },
+      { name: 'Railcam UK Lynton', channelId: 'UC6YuojLzzdEMjbFiMHyecug', videoId: 'ZB45BTgSUAk', country: 'UK', flag: '🇬🇧', timezone: 'Europe/London' },
     ],
   },
   {
@@ -543,13 +585,16 @@ const railroadGroups: CameraGroup[] = [
     slot: 11,
     cameras: [
       { name: 'Railcam UK Lynton', channelId: 'UC6YuojLzzdEMjbFiMHyecug', videoId: 'ZB45BTgSUAk', country: 'UK', flag: '🇬🇧', timezone: 'Europe/London' },
+      { name: 'Railcam UK (Seaton Tramway)', channelId: 'UC6YuojLzzdEMjbFiMHyecug', videoId: 'd41DPPsnHaY', country: 'UK', flag: '🇬🇧', timezone: 'Europe/London' },
     ],
   },
   {
     category: 'railroad',
     slot: 12,
     cameras: [
-      { name: 'Virtual Railfan Alt', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: 'wK-k4cmiH2o', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
+      { name: 'Ashland VA Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: 'wgkdREYOfw0', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
+      { name: 'Flagstaff AZ Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: '7xdHH9KMSVk', country: 'USA', flag: '🇺🇸', timezone: 'America/Phoenix' },
+      { name: 'La Grange KY Train Cam', channelId: 'UCOIkT9bq-1N2BvrsBjhNlag', videoId: '9SLt3AT0rXk', country: 'USA', flag: '🇺🇸', timezone: 'America/New_York' },
     ],
   },
 ];

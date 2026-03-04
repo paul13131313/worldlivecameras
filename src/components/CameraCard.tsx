@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import type { CameraGroup, ActiveCamera } from '../data/cameras';
 
-const INITIAL_PLAY_TIMEOUT = 20000;
-const STATE_CHANGE_TIMEOUT = 10000;
+const INITIAL_PLAY_TIMEOUT = 10000;
+const STATE_CHANGE_TIMEOUT = 5000;
 const OFFLINE_RETRY_INTERVAL = 30 * 60 * 1000;
 const OFFLINE_RETRY_INTERVAL_HIGH = 5 * 60 * 1000;
 
@@ -15,6 +15,7 @@ interface CameraCardProps {
   isAudioOn?: boolean;
   onAudioToggle?: (slot: number) => void;
   onIndexChange?: (slot: number, index: number) => void;
+  channelId?: string;
 }
 
 function useLocalTime(timezone: string) {
@@ -57,7 +58,9 @@ function waitForYT(): Promise<void> {
   });
 }
 
-export function CameraCard({ group, onSelect, initialIndex, isAudioOn, onAudioToggle, onIndexChange }: CameraCardProps) {
+export type { SlotStatus };
+
+export function CameraCard({ group, onSelect, initialIndex, isAudioOn, onAudioToggle, onIndexChange, channelId }: CameraCardProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
   const [currentIndex, setCurrentIndex] = useState(initialIndex ?? 0);
@@ -92,11 +95,14 @@ export function CameraCard({ group, onSelect, initialIndex, isAudioOn, onAudioTo
     setCurrentIndex((prev) => {
       const next = prev + 1;
       if (next < group.cameras.length) {
-        updateStatus('switching');
-        onIndexChange?.(group.slot, next);
+        // Defer status update to avoid setState-in-setState
+        setTimeout(() => {
+          updateStatus('switching');
+          onIndexChange?.(group.slot, next);
+        }, 0);
         return next;
       }
-      updateStatus('offline');
+      setTimeout(() => updateStatus('offline'), 0);
       return prev;
     });
   }, [group.cameras.length, group.slot, updateStatus, onIndexChange]);
@@ -216,6 +222,18 @@ export function CameraCard({ group, onSelect, initialIndex, isAudioOn, onAudioTo
       }
     };
   }, [currentIndex, group.cameras, group.slot, divId, clearTimers, addTimer, switchToNext, updateStatus]);
+
+  // Report status changes via CustomEvent (avoids setState-in-render)
+  const prevReportedRef = useRef<string>('');
+  useEffect(() => {
+    const key = `${status}:${camera.name}`;
+    if (prevReportedRef.current !== key) {
+      prevReportedRef.current = key;
+      window.dispatchEvent(new CustomEvent('camera-status', {
+        detail: { slot: group.slot, status, cameraName: camera.name, channelId },
+      }));
+    }
+  }, [status, camera.name, group.slot, channelId]);
 
   // Audio control: mute/unmute based on isAudioOn prop
   useEffect(() => {
